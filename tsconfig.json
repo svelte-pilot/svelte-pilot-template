@@ -1,0 +1,9 @@
+{
+  "include": ["src/**/*"],
+
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["ES2020", "DOM"],
+    "moduleResolution": "Node"
+  }
+}

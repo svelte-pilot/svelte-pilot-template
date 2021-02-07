@@ -1,27 +1,39 @@
 import svelte from 'rollup-plugin-svelte';
-import urlToModule from 'rollup-plugin-import-meta-url-to-module';
 import preprocess from 'svelte-preprocess';
 import htmlAsset from 'svelte-preprocess-html-asset';
 import cssHash from 'svelte-preprocess-css-hash';
+import urlToModule from 'rollup-plugin-import-meta-url-to-module';
 
-export default {
-  plugins: [
-    svelte({
-      compilerOptions: {
-        hydratable: true
-      },
+export default ({ command }) => {
+  const isDev = command === 'serve';
+  // const isBuild = !isDev;
 
-      preprocess: [
-        preprocess({ postcss: true }),
-        htmlAsset(),
-        cssHash()
-      ]
-    }),
+  return {
+    plugins: [
+      svelte({
+        hot: isDev,
+        // emitCss: isBuild,
 
-    urlToModule()
-  ],
+        compilerOptions: {
+          hydratable: true
+        },
 
-  optimizeDeps: {
-    exclude: ['svelte']
-  }
+        preprocess: [
+          preprocess({ postcss: true }),
+          htmlAsset(),
+          cssHash()
+        ]
+      }),
+
+      urlToModule({
+        optimizeHref: true
+      })
+    ],
+
+    build: {
+      assetsInlineLimit: 0
+    },
+
+    dedupe: ['svelte']
+  };
 };

@@ -4,4 +4,5 @@ yarn.lock
 pnpm-lock.yaml
 dist
 .env
+.env.*
 .DS_Store
