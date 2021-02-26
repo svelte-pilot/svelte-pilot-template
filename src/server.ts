@@ -34,8 +34,6 @@ async function main() {
       //    e.g. ReacDOMServer.renderToString()
       const data = await render(url);
 
-      console.log(data);
-
       if (data) {
         // 5. Inject the app-rendered HTML into the template.
         const html = template
