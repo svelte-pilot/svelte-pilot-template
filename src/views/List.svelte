@@ -4,4 +4,4 @@
   }
 </style>
 
-<main>List</main>
+<main>hello world from svelte-vite-ssr</main>
