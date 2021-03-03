@@ -1,3 +1,4 @@
+import path from 'path';
 import svelte from 'vite-plugin-svelte-ssr-hot';
 import preprocess from 'svelte-preprocess';
 import htmlAsset from 'svelte-preprocess-html-asset';
@@ -15,7 +16,7 @@ export default ({ command }) => {
         hot: isDev,
 
         compilerOptions: {
-          hydratable: Boolean(process.env.SVELTE_HYDRATABLE)
+          hydratable: Boolean(Number(process.env.VITE_SVELTE_HYDRATABLE))
         },
 
         preprocess: [
@@ -31,19 +32,21 @@ export default ({ command }) => {
     ],
 
     build: {
-      assetsInlineLimit: 0
+      assetsInlineLimit: 0,
+      outDir: path.resolve(__dirname, 'dist'),
+      emptyOutDir: false
     },
 
     resolve: {
       dedupe: ['svelte']
     },
 
-    ssr: {
-      external: ['svelte']
-    },
-
     optimizeDeps: {
       exclude: ['svelte']
+    },
+
+    ssr: {
+      external: ['svelte']
     }
   };
 };

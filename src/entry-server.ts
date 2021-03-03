@@ -1,18 +1,18 @@
 import { ServerApp } from 'svelte-pilot';
 import router from './router';
 
-type Response = {
+export type Response = {
   status?: number,
   headers?: Record<string, string>,
 
   body: {
-    head?: string,
-    html?: string,
-    css?: string
+    head: string,
+    html: string,
+    css: string
   }
 };
 
-export async function render(url: string, ctx: unknown): Promise<Response | null> {
+export async function render(url: string, ctx?: unknown): Promise<Response | null> {
   const matchedRoute = await router.handle(url, ctx);
 
   if (!matchedRoute) {
