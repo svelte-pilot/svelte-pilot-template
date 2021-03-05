@@ -1,10 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import express from 'express';
-import type { Response } from './entry-server';
+import express, { Response } from 'express';
+import { RenderResult } from './types';
 
 async function main() {
   const app = express();
+  let manifest: Record<string, string[]>;
 
   if (process.env.DEV) {
     const { createServer } = await import('vite');
@@ -36,15 +37,7 @@ async function main() {
         //    function calls appropriate framework SSR APIs,
         //    e.g. ReacDOMServer.renderToString()
         const data = await render(url, {});
-
-        if (data) {
-          // 5. Inject the app-rendered HTML into the template.
-          const html = injectHTML(data, template);
-          // 6. Send the rendered HTML back.
-          res.status(200).type('html').end(html);
-        } else {
-          res.status(404).end();
-        }
+        response(res, data, template);
       } catch (e) {
         // If an error is caught, let vite fix the stracktrace so it maps back to
         // your actual source code.
@@ -54,38 +47,82 @@ async function main() {
       }
     });
   } else {
-    const { render } = await import('./entry-server');
+    app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
+
+    const { render } = await import('./entry-server.js');
     const template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+    manifest = (await import('./ssr-manifest.json')).default;
 
     app.use('*', async(req, res) => {
       try {
         res.type('html');
         const data = await render(req.originalUrl, {});
-
-        if (data) {
-          // 5. Inject the app-rendered HTML into the template.
-          const html = injectHTML(data, template);
-          // 6. Send the rendered HTML back.
-          res.status(200).end(html);
-        } else {
-          res.status(404).end(template);
-        }
+        response(res, data, template);
       } catch (e) {
         console.error(e);
         // Fallback to CSR
         res.status(500).end(template);
       }
-    })
+    });
   }
 
-  function injectHTML(data: Response, template: string) {
-    return template
-      .replace('<!--ssr-head-->', data.body.head)
-      .replace('<!--ssr-css-->', '<style>' + data.body.css + '</style>')
-      .replace('<!--ssr-html-->', data.body.html);
+  function response(res: Response, data: RenderResult | null, template: string) {
+    if (process.env.DEV) {
+      console.log(data);
+    }
+
+    if (data) {
+      res.status(data.status).set(data.headers);
+
+      if (!data.headers.location) {
+        const preloadReg = /<link rel="preload" data-href="([^"]+)".*?>/g;
+        const preloadTags: Set<string> = new Set();
+
+        data.body.head = data.body.head.replace(preloadReg, (_, href) => {
+          if (manifest) {
+            const files = manifest[href];
+
+            if (files?.length) {
+              files.forEach(file => preloadTags.add(file));
+            }
+          }
+
+          return '';
+        });
+
+        if (preloadTags.size) {
+          data.body.head = Array.from(preloadTags).map(preloadLink).join('\n') + data.body.head;
+        }
+
+        const html = template
+          .replace('<!--ssr-head-->', data.body.head)
+          .replace('<!--ssr-css-->', '<style>' + data.body.css + '</style>')
+          .replace('<!--ssr-html-->', data.body.html);
+
+        res.end(html);
+      }
+    } else {
+      res.redirect('/');
+    }
   }
 
   app.listen(3000);
+  console.log('http://localhost:3000');
+}
+
+function preloadLink(href: string) {
+  const ext = href.split('.').pop();
+  let rel = 'preload';
+  let as = '';
+
+  if (ext === 'js') {
+    as = 'script';
+    rel = 'modulepreload';
+  } else if (ext === 'css') {
+    as = 'style';
+  }
+
+  return as && `<link rel="${rel}" href="${href}" as="${as}">`;
 }
 
 main();

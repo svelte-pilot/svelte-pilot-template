@@ -7,6 +7,7 @@ import urlToModule from 'rollup-plugin-import-meta-url-to-module';
 
 export default ({ command }) => {
   const isDev = command === 'serve';
+  const isProd = !isDev;
 
   return {
     root: './src',
@@ -16,7 +17,7 @@ export default ({ command }) => {
         hot: isDev,
 
         compilerOptions: {
-          hydratable: Boolean(Number(process.env.VITE_SVELTE_HYDRATABLE))
+          hydratable: Boolean(process.env.VITE_SVELTE_HYDRATABLE)
         },
 
         preprocess: [
@@ -46,7 +47,7 @@ export default ({ command }) => {
     },
 
     ssr: {
-      external: ['svelte']
+      [isProd ? 'noExternal' : 'external']: ['svelte']
     }
   };
 };
