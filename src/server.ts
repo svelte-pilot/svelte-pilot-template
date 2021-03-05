@@ -1,3 +1,4 @@
+import 'teleman-node';
 import fs from 'fs';
 import path from 'path';
 import express, { Response } from 'express';
