@@ -5,15 +5,16 @@
     "dev:csr": "vite",
     "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 DEV=1 ts-node --compiler-options '{ \"module\": \"CommonJS\" }' src/server.ts",
     "build:csr": "vite --emptyOutDir build",
-    "build:ssr": "VITE_SVELTE_HYDRATABLE=1 vite build --emptyOutDir --ssrManifest && vite build --ssr entry-server.ts && esbuild --platform=node --format=cjs --target=es2020 src/server.ts --outfile=dist/server.js && node fix-ssr-manifest.js",
+    "build:ssr": "VITE_SVELTE_HYDRATABLE=1 vite build --emptyOutDir --ssrManifest && vite build --ssr entry-server.ts && esbuild --platform=node --format=cjs --target=es2020 src/server.ts --outfile=dist/server.js && node fix-ssr-manifest.js && cp package.json dist",
+    "install:ssr": "cd dist && npm install --only=prod",
     "serve:csr": "vite preview --port 3000",
-    "serve:ssr": "node dist/server.js"
+    "serve:ssr": "PORT=3000 node dist/server.js"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
-    "esbuild": "^0.8.56",
+    "esbuild": "^0.8.57",
     "eslint": "^7.21.0",
     "eslint-config-enough": "^0.7.0",
     "eslint-plugin-ext": "^0.1.0",

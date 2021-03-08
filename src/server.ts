@@ -4,6 +4,8 @@ import path from 'path';
 import express, { Response } from 'express';
 import { RenderResult } from './types';
 
+const PORT = Number(process.env.PORT) || 3000;
+
 async function main() {
   const app = express();
   let manifest: Record<string, string[]>;
@@ -107,8 +109,8 @@ async function main() {
     }
   }
 
-  app.listen(3000);
-  console.log('http://localhost:3000');
+  app.listen(PORT);
+  console.log(`http://localhost:${PORT}`);
 }
 
 function preloadLink(href: string) {
