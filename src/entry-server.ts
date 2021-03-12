@@ -1,4 +1,5 @@
 import { ServerApp } from 'svelte-pilot';
+import serialize from 'serialize-javascript';
 import router from './router';
 import { RenderResult } from './types';
 
@@ -9,7 +10,7 @@ export async function render(url: string, ctx?: unknown): Promise<RenderResult |
     return null;
   }
 
-  const { route, preloadData } = matchedRoute;
+  const { route, ssrState } = matchedRoute;
 
   const res: RenderResult = Object.assign({
     status: 200,
@@ -29,8 +30,8 @@ export async function render(url: string, ctx?: unknown): Promise<RenderResult |
 
     return res;
   } else {
-    const body = ServerApp.render({ router, route, preloadData });
-    body.html += `<script>__PRELOAD_DATA__ = ${JSON.stringify(preloadData)}</script>`;
+    const body = ServerApp.render({ router, route, ssrState });
+    body.html += `<script>__SSR_STATE__ = ${serialize(ssrState)}</script>`;
 
     res.body = {
       ...body,

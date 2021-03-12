@@ -1,3 +1,5 @@
+import { IncomingHttpHeaders } from 'http';
+
 export type RenderResult = {
   status: number,
   headers: Record<string, string>,
@@ -7,4 +9,9 @@ export type RenderResult = {
     html: string,
     css: string
   }
+};
+
+export type SSRContext = {
+  cookies: Record<string, string>,
+  headers: IncomingHttpHeaders
 };

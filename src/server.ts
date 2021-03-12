@@ -1,13 +1,14 @@
-import 'teleman-node';
 import fs from 'fs';
 import path from 'path';
-import express, { Response } from 'express';
-import { RenderResult } from './types';
+import express, { Request, Response } from 'express';
+import cookieParser from 'cookie-parser';
+import { RenderResult, SSRContext } from './types';
 
 const PORT = Number(process.env.PORT) || 3000;
 
 async function main() {
   const app = express();
+  app.use(cookieParser());
   let manifest: Record<string, string[]>;
 
   if (process.env.DEV) {
@@ -39,11 +40,13 @@ async function main() {
         // 4. render the app HTML. This assumes entry-server.js's exported `render`
         //    function calls appropriate framework SSR APIs,
         //    e.g. ReacDOMServer.renderToString()
-        const data = await render(url, {});
-        response(res, data, template);
+        await response(req, res, render, template);
       } catch (e) {
         // If an error is caught, let vite fix the stracktrace so it maps back to
         // your actual source code.
+
+        // console.error(e);
+        debugger;
         vite.ssrFixStacktrace(e);
         console.error(e);
         res.status(500).end(e.message);
@@ -59,8 +62,7 @@ async function main() {
     app.use('*', async(req, res) => {
       try {
         res.type('html');
-        const data = await render(req.originalUrl, {});
-        response(res, data, template);
+        await response(req, res, render, template);
       } catch (e) {
         console.error(e);
         // Fallback to CSR
@@ -69,7 +71,17 @@ async function main() {
     });
   }
 
-  function response(res: Response, data: RenderResult | null, template: string) {
+  async function response(
+    req: Request,
+    res: Response,
+    render: (url: string, ctx: SSRContext) => Promise<RenderResult | null>,
+    template: string
+  ) {
+    const data = await render(req.originalUrl, {
+      cookies: req.cookies,
+      headers: req.headers
+    });
+
     if (process.env.DEV) {
       console.log(data);
     }

@@ -1,13 +1,16 @@
 {
-  "include": ["src/**/*"],
-
   "compilerOptions": {
     "strict": true,
     "lib": ["ES2020", "DOM"],
     "module": "ES2020",
+    "target": "ES2020",
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "types": ["vite/client"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./src",
+    "paths": {
+      "/*": ["./*"]
+    }
   }
 }

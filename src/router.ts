@@ -9,7 +9,8 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: () => import('./views/List.svelte')
+          component: () => import('./views/Home.svelte'),
+          props: route => ({ page: route.query.int('page') })
         }
       ]
     }
