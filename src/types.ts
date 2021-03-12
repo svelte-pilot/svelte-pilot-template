@@ -15,3 +15,8 @@ export type SSRContext = {
   cookies: Record<string, string>,
   headers: IncomingHttpHeaders
 };
+
+export type APIResult = {
+  title: string,
+  content: string
+};
