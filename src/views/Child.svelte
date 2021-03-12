@@ -8,31 +8,33 @@
 
   export type SSRState = Anwser;
 
-  export async function preload(props: {}, route: Route, ssrCtx: SSRContext) {
-    const ssrState = await getAnswer();
+  export async function preload({ question }: { question: string }, route: Route, ssrCtx: SSRContext) {
+    const ssrState = await getAnswer(question);
     return { ssrState };
   }
 
-  function getAnswer() {
+  function getAnswer(question: string) {
     return Promise.resolve({
+      question,
       answer: 42
     });
   }
 </script>
 
 <script lang="ts">
+  export let question: string;
   export let ssrState: Anwser | null = null;
 
-  let data = ssrState;
+  let data: Anwser;
+  $: onQuestionChange(question);
 
-  main();
-
-  async function main() {
-    // CSR
-    if (!data) {
-      data = await getAnswer();
+  async function onQuestionChange(question: string) {
+    if (ssrState) {
+      data = ssrState;
+    } else {
+      data = await getAnswer(question);
     }
   }
 </script>
 
-<p>Answer: {data?.answer}</p>
+<p>Question: {question}. Answer: {data?.answer}</p>

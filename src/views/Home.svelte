@@ -1,17 +1,21 @@
 <script context="module" lang="ts">
+  import { RouterLink } from 'svelte-pilot';
   import type { Route } from 'svelte-pilot';
   import type { SSRContext } from '/types';
   import Child, { preload as preloadChild } from './Child.svelte';
 
   type APIResult = {
     title: string,
-    content: string
+    content: string,
+    question: string
   };
 
   export async function preload({ page = 1 }: { page: number}, route: Route, ssrCtx: SSRContext) {
     // Mock http request
     const ssrState = await fetchData(page, ssrCtx.cookies.token);
-    const childState = await preloadChild({ propA: 1 }, route, ssrCtx);
+
+    // preload child component
+    const childState = await preloadChild({ question: ssrState.question }, route, ssrCtx);
 
     // Set response headers. Optional
     route.meta.response = {
@@ -33,7 +37,8 @@
     return new Promise(resolve =>
       setTimeout(() => resolve({
         title: token ? 'Welcome back, John' : 'Hello guest',
-        content: 'Content of page ' + page
+        content: ['Lorem ipsum dolor sit amet.', 'Donec vel neque massa.'][page - 1],
+        question: 'Meaning of life'
       }), 100)
     )
   }
@@ -44,13 +49,16 @@
   export let ssrState: APIResult | null = null;
   export let childState: {} | null = null;
 
-  let data = ssrState;
+  let data: APIResult;
 
-  main();
+  $: onPageChange(page)
 
-  async function main() {
-    // CSR
-    if (!data) {
+  async function onPageChange(page: number) {
+    if (ssrState) {
+      // Initial rendering
+      // SSR state will be purged if history.pushState or history.replaceState is called
+      data = ssrState;
+    } else {
       data = await fetchData(page, new URLSearchParams(document.cookie.replace(/;\s*/g, '&')).get('token'));
     }
   }
@@ -78,12 +86,21 @@
   {#if data}
     <h2>{data.title}</h2>
     <p>{data.content}</p>
+    <Child question={data.question} {...childState} />
   {/if}
 
-  <a href="/">page 1</a>
-  <a href="/?page=2">page 2</a>
+  <ul>
+    <li><a href="/">page 1</a></li>
+    <li><a href="/?page=2">page 2</a></li>
+    <li><RouterLink to="/">page 1 (pushState)</RouterLink></li>
+    <li><RouterLink to="/?page=2">page 2 (pushState)</RouterLink></li>
+  </ul>
 
-  <Child {...childState} />
+  <pre>sstState: {JSON.stringify(ssrState, null, 2)}</pre>
+
+  <p>On the client side, when a navigation is triggered through <code>history.pushState</code> /
+    <code>history.replaceState</code> / <code>popstate</code> event, the state object will be purged.</p>
+
 </main>
 
 <style>
