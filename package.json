@@ -1,6 +1,6 @@
 {
   "name": "svelte-vite-ssr",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "dev:csr": "vite",
     "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 DEV=1 TS_NODE_COMPILER_OPTIONS='{ \"module\": \"CommonJS\" }' node --inspect -r ts-node/register src/server.ts",
