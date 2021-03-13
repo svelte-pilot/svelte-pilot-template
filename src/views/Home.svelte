@@ -100,7 +100,6 @@
 
   <p>On the client side, when a navigation is triggered through <code>history.pushState</code> /
     <code>history.replaceState</code> / <code>popstate</code> event, the state object will be purged.</p>
-
 </main>
 
 <style>

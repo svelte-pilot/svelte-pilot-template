@@ -8,6 +8,11 @@ export default new Router({
 
       children: [
         {
+          name: 'footer',
+          component: () => import('./views/Footer.svelte')
+        },
+
+        {
           path: '/',
           component: () => import('./views/Home.svelte'),
           props: route => ({ page: route.query.int('page', { defaults: 1 }) })

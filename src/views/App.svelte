@@ -3,3 +3,5 @@
 </script>
 
 <RouterView />
+
+<RouterView name="footer" />
