@@ -1,5 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
 const manifest = fs.readFileSync('./dist/ssr-manifest.json', 'utf8');
-fs.writeFileSync('./dist/ssr-manifest.json', manifest.replaceAll(process.cwd() + path.sep, ''));
+const regex = new RegExp(escapeRegExp(process.cwd() + path.sep), 'g');
+fs.writeFileSync('./dist/ssr-manifest.json', manifest.replace(regex, ''));

@@ -36,6 +36,7 @@ export default ({ command }) => {
       assetsInlineLimit: 0,
       outDir: path.resolve(__dirname, 'dist'),
       emptyOutDir: false
+      // sourcemap: true
     },
 
     resolve: {
