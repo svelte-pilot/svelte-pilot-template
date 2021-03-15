@@ -2,7 +2,7 @@
   import { RouterLink } from 'svelte-pilot';
   import type { Route } from 'svelte-pilot';
   import type { SSRContext } from '/types';
-  import Child, { preload as preloadChild } from './Child.svelte';
+  import Child, { load as preloadChild } from './Child.svelte';
 
   type APIResult = {
     title: string,
@@ -10,7 +10,7 @@
     question: string
   };
 
-  export async function preload({ page = 1 }: { page: number}, route: Route, ssrCtx: SSRContext) {
+  export async function load({ page = 1 }: { page: number}, route: Route, ssrCtx: SSRContext) {
     // Mock http request
     const ssrState = await fetchData(page, ssrCtx.cookies.token);
 
@@ -49,16 +49,14 @@
   export let ssrState: APIResult | null = null;
   export let childState: {} | null = null;
 
-  let data: APIResult;
+  // Initialize data from SSR state.
+  let data = ssrState;
 
-  $: onPageChange(page)
+  $: onPageChange(page);
 
   async function onPageChange(page: number) {
-    if (ssrState) {
-      // Initial rendering
-      // SSR state will be purged if history.pushState or history.replaceState is called
-      data = ssrState;
-    } else {
+    // SSR state will be set to undefined when history.pushState / history.replaceState / popstate event is called.
+    if (!ssrState) {
       data = await fetchData(page, new URLSearchParams(document.cookie.replace(/;\s*/g, '&')).get('token'));
     }
   }

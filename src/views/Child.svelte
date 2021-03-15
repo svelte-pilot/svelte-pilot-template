@@ -8,7 +8,7 @@
 
   export type SSRState = Anwser;
 
-  export async function preload({ question }: { question: string }, route: Route, ssrCtx: SSRContext) {
+  export async function load({ question }: { question: string }, route: Route, ssrCtx: SSRContext) {
     const ssrState = await getAnswer(question);
     return { ssrState };
   }
@@ -25,13 +25,12 @@
   export let question: string;
   export let ssrState: Anwser | null = null;
 
-  let data: Anwser;
+  let data = ssrState;
+
   $: onQuestionChange(question);
 
   async function onQuestionChange(question: string) {
-    if (ssrState) {
-      data = ssrState;
-    } else {
+    if (!ssrState) {
       data = await getAnswer(question);
     }
   }
