@@ -37,6 +37,6 @@
     "express": "^4.17.1",
     "serialize-javascript": "^5.0.1",
     "svelte": "^3.35.0",
-    "svelte-pilot": "^0.1.0"
+    "svelte-pilot": "^0.2.0"
   }
 }
