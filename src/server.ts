@@ -2,7 +2,7 @@ import http from 'http';
 import path from 'path';
 import serveStatic from 'serve-static';
 import render from './server-render';
-// @ts-ignore
+// @ts-expect-error handle by rollup-plugin-string
 import template from './index.html';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -26,12 +26,12 @@ http.createServer(async(req, res) => {
 
         ctx: {
           cookies: req.headers.cookie
-          ? Object.fromEntries(
+            ? Object.fromEntries(
               new URLSearchParams(req.headers.cookie.replace(/;\s*/g, '&'))
-                // @ts-ignore Property 'entries' does not exist on type 'URLSearchParams'.ts(2339)
+                // @ts-expect-error Property 'entries' does not exist on type 'URLSearchParams'.ts(2339)
                 .entries()
             )
-          : {},
+            : {},
 
           headers: req.headers
         }
