@@ -4,8 +4,8 @@ module.exports = {
 
   plugins: [
     'ext',
-    '@typescript-eslint'
-    // 'svelte3'
+    '@typescript-eslint',
+    'svelte3'
   ],
 
   extends: [
@@ -27,23 +27,29 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 'error',
         '@typescript-eslint/no-var-requires': 'error'
       }
+    },
+
+    {
+      files: ['*.svelte'],
+      processor: 'svelte3/svelte3',
+
+      rules: {
+        'no-multiple-empty-lines': 'off',
+        'no-duplicate-imports': 'off'
+      }
     }
-    // {
-    //   files: ['*.svelte'],
-    //   processor: 'svelte3/svelte3'
-    // }
   ],
 
   rules: {
     'ext/lines-between-object-properties': ['error', 'always', { exceptBetweenSingleLines: true }],
-    // 'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 2, maxEOF: 1 }],
     'no-extra-parens': 'off',
     '@typescript-eslint/no-extra-parens': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-var-requires': 'off'
-  }
+  },
 
-  // settings: {
-  //   'svelte3/ignore-styles': () => true
-  // }
+  settings: {
+    'svelte3/typescript': true,
+    'svelte3/ignore-styles': () => true
+  }
 };

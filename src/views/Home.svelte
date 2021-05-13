@@ -33,7 +33,7 @@
     };
   }
 
-  function fetchData(page: number, token: string | null): Promise<APIResult> {
+  function fetchData(page: number, token?: string | null): Promise<APIResult> {
     return new Promise(resolve =>
       setTimeout(() => resolve({
         title: token ? 'Welcome back, John' : 'Hello guest',

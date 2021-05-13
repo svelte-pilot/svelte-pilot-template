@@ -25,11 +25,6 @@ npm run dev:csr
 npm run build:ssr
 ```
 
-If you want to deploy only the `dist` folder to the production server, you can install server-side runtime dependencies into `dist` folder by:
-```sh
-npm run install:ssr
-```
-
 ### Build CSR
 ```sh
 npm run build:csr
@@ -40,14 +35,9 @@ npm run build:csr
 npm run serve:ssr
 ```
 
-or run
-```sh
-node server.js
-```
-
-in `dist` folder.
-
 ### Run CSR (preview)
+In production, you should use web server such as nginx.
+
 ```sh
 npm run serve:csr
 ```

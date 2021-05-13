@@ -9,7 +9,7 @@ declare global {
 
 new ClientApp({
   target: document.body,
-  hydrate: Boolean(import.meta.env.VITE_SVELTE_HYDRATABLE),
+  hydrate: Boolean(Number(import.meta.env.VITE_SVELTE_HYDRATABLE)),
 
   props: {
     router,

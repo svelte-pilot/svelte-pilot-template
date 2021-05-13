@@ -1,13 +1,11 @@
 {
   "css.validate": false,
   "svelte.plugin.css.diagnostics.enable": false,
-  // "eslint.validate": [
-  //   "svelte"
-  // ],
+  "eslint.validate": [
+    "svelte"
+  ],
   "files.associations": {
     "*.svelte": "svelte"
   },
-  "px2rem.autoRemovePrefixZero": false,
-  "editor.tabSize": 2,
-  "svelte.language-server.runtime": "/usr/local/bin/node"
+  "editor.tabSize": 2
 }

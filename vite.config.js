@@ -1,30 +1,42 @@
-import path from 'path';
-import svelte from 'vite-plugin-svelte-ssr-hot';
-import preprocess from 'svelte-preprocess';
+import fs from 'fs';
+import legacy from '@vitejs/plugin-legacy';
+import svelte from '@sveltejs/vite-plugin-svelte';
+import sveltePreprocess from 'svelte-preprocess';
 import htmlAsset from 'svelte-preprocess-html-asset';
 import cssHash from 'svelte-preprocess-css-hash';
+import preloadLink from 'svelte-preprocess-preload-link';
 import urlToModule from 'rollup-plugin-import-meta-url-to-module';
 
 export default ({ command }) => {
   const isDev = command === 'serve';
   const isProd = !isDev;
+  const mode = process.env.VITE_MODE;
+  const isBuildSSR = process.argv.includes('--ssr');
 
-  return {
+  const preprocess = [
+    sveltePreprocess({ postcss: true }),
+    htmlAsset(),
+    cssHash()
+  ];
+
+  if (isBuildSSR) {
+    const manifest = JSON.parse(fs.readFileSync('./dist/tmp/ssr-manifest.json', 'utf-8'));
+    preprocess.push(preloadLink({ manifest }));
+  }
+
+  const cfg = {
     root: './src',
+    mode,
+    isProduction: isProd,
 
     plugins: [
       svelte({
         hot: isDev,
+        preprocess,
 
         compilerOptions: {
-          hydratable: Boolean(process.env.VITE_SVELTE_HYDRATABLE)
-        },
-
-        preprocess: [
-          preprocess({ postcss: true }),
-          htmlAsset(),
-          cssHash()
-        ]
+          hydratable: Boolean(Number(process.env.VITE_SVELTE_HYDRATABLE))
+        }
       }),
 
       urlToModule({
@@ -34,9 +46,8 @@ export default ({ command }) => {
 
     build: {
       assetsInlineLimit: 0,
-      outDir: path.resolve(__dirname, 'dist'),
+      assetsDir: '_assets',
       emptyOutDir: false
-      // sourcemap: true
     },
 
     resolve: {
@@ -45,10 +56,12 @@ export default ({ command }) => {
 
     optimizeDeps: {
       exclude: ['svelte']
-    },
-
-    ssr: {
-      [isProd ? 'noExternal' : 'external']: ['svelte']
     }
   };
+
+  if (isProd && !isBuildSSR) {
+    cfg.plugins.push(legacy());
+  }
+
+  return cfg;
 };
