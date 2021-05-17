@@ -56,7 +56,7 @@ async function render({ url, ctx, template }: {
 
   const { route, ssrState } = matchedRoute;
 
-  const res: { status?: number, headers?: Record<string, string> } | null = route.meta.response;
+  const res = route.meta.response as { status?: number, headers?: Record<string, string> } | null;
 
   if (res?.headers?.location) {
     return {

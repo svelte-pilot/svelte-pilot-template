@@ -40,14 +40,14 @@
         content: ['Lorem ipsum dolor sit amet.', 'Donec vel neque massa.'][page - 1],
         question: 'Meaning of life'
       }), 100)
-    )
+    );
   }
 </script>
 
 <script lang="ts">
-  export let page: number = 1;
+  export let page = 1;
   export let ssrState: APIResult | null = null;
-  export let childState: {} | null = null;
+  export let childState: unknown = null;
 
   // Initialize data from SSR state.
   let data = ssrState;
