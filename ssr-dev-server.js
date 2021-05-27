@@ -14,7 +14,7 @@ async function main() {
     vite.middlewares(req, res, async() => {
       try {
         // 1. Read index.html
-        let template = fs.readFileSync(path.resolve(__dirname, 'src', 'index.html'), 'utf-8');
+        let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
 
         // 2. Apply vite HTML transforms. This injects the vite HMR client, and
         //    also applies HTML transforms from Vite plugins, e.g. global preambles
@@ -24,7 +24,7 @@ async function main() {
         // 3. Load the server entry. vite.ssrLoadModule automatically transforms
         //    your ESM source code to be usable in Node.js! There is no bundling
         //    required, and provides efficient invalidation similar to HMR.
-        const { default: render } = await vite.ssrLoadModule('/server-render.ts');
+        const { default: render } = await vite.ssrLoadModule('/src/server-render.ts');
 
         // 4. render the app HTML. This assumes entry-server.js's exported `render`
         //    function calls appropriate framework SSR APIs,

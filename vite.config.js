@@ -25,7 +25,6 @@ export default ({ command }) => {
   }
 
   const cfg = {
-    root: './src',
     mode,
     isProduction: isProd,
 

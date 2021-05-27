@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   import type { Route } from 'svelte-pilot';
-  import type { SSRContext } from '/types';
+  import type { SSRContext } from '/src/types';
 
   type Anwser = {
     answer: number

@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
     "strict": true,
-    "lib": ["ES2020", "DOM"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ES2020",
     "target": "ES2020",
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "types": ["vite/client", "node"],
     "resolveJsonModule": true,
-    "baseUrl": "./src",
     "paths": {
       "/*": ["./*"]
     }

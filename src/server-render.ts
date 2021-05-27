@@ -1,6 +1,12 @@
 import { ServerApp } from 'svelte-pilot';
 import router from './router';
 
+type RenderParams = {
+  url: string,
+  ctx?: unknown,
+  template: string,
+};
+
 type RenderResult = {
   error?: Error,
   status: number,
@@ -8,7 +14,7 @@ type RenderResult = {
   body?: string
 };
 
-export default async function(args: Parameters<typeof render>[0]): Promise<RenderResult> {
+export default async function(args: RenderParams): Promise<RenderResult> {
   try {
     return await render(args);
   } catch (e) {
@@ -26,11 +32,7 @@ export default async function(args: Parameters<typeof render>[0]): Promise<Rende
   }
 }
 
-async function render({ url, ctx, template }: {
-  url: string,
-  ctx?: unknown,
-  template: string,
-}): Promise<RenderResult> {
+async function render({ url, ctx, template }: RenderParams): Promise<RenderResult> {
   const matchedRoute = await router.handle('http://127.0.0.1' + url, ctx);
 
   if (!matchedRoute) {

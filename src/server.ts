@@ -27,9 +27,7 @@ http.createServer(async(req, res) => {
         ctx: {
           cookies: req.headers.cookie
             ? Object.fromEntries(
-              new URLSearchParams(req.headers.cookie.replace(/;\s*/g, '&'))
-                // @ts-expect-error Property 'entries' does not exist on type 'URLSearchParams'.ts(2339)
-                .entries()
+              new URLSearchParams(req.headers.cookie.replace(/;\s*/g, '&')).entries()
             )
             : {},
 
