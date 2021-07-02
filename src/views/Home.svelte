@@ -75,7 +75,7 @@
 <main>
   <header>
     <img src="../favicon.png" alt="logo">
-    <h1>Svelte-Vite-SSR</h1>
+    <h1><a href="https://github.com/jiangfengming/svelte-vite-ssr">Svelte-Vite-SSR</a></h1>
   </header>
 
   <button on:click={setCookie}>set cookie</button>

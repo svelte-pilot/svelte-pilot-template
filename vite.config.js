@@ -1,6 +1,6 @@
 import fs from 'fs';
 import legacy from '@vitejs/plugin-legacy';
-import svelte from '@sveltejs/vite-plugin-svelte';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import sveltePreprocess from 'svelte-preprocess';
 import htmlAsset from 'svelte-preprocess-html-asset';
 import cssHash from 'svelte-preprocess-css-hash';
