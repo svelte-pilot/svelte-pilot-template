@@ -1,6 +1,9 @@
 # svelte-vite-ssr
 A Svelte project template with a powerful [router]((https://github.com/jiangfengming/svelte-pilot)), SSR (Server-Side Rendering), CSR (Client-Side Rendering), HMR (Hot Module Replacement), `<link rel="preload">` directives, and other nice features.
 
+## Demo
+https://svelte-vite-ssr.netlify.app/
+
 ## Commands
 ### Create a project from template
 In your project folder:
