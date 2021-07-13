@@ -33,12 +33,13 @@ export default async function(args: RenderParams): Promise<RenderResult> {
 }
 
 async function render({ url, ctx, template }: RenderParams): Promise<RenderResult> {
-  const matchedRoute = await router.handle('http://127.0.0.1' + url, ctx);
+  const _url = new URL(url, 'http://127.0.0.1');
+  const matchedRoute = await router.handle(_url.href, ctx);
 
   if (!matchedRoute) {
     console.error('No route found for url:', url);
 
-    if (new URL(url, 'http://127.0.0.1').pathname === '/') {
+    if (_url.pathname === '/') {
       return {
         status: 404,
         body: 'Page Not Found',
