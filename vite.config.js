@@ -49,12 +49,8 @@ export default ({ command }) => {
       emptyOutDir: false
     },
 
-    resolve: {
-      dedupe: ['svelte']
-    },
-
-    optimizeDeps: {
-      exclude: ['svelte']
+    ssr: {
+      noExternal: ['svelte-pilot']
     }
   };
 

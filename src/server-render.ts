@@ -19,7 +19,7 @@ export default async function(args: RenderParams): Promise<RenderResult> {
     return await render(args);
   } catch (e) {
     return {
-      error: e,
+      error: e as Error,
       status: 500,
 
       headers: {
@@ -79,7 +79,7 @@ async function render({ url, ctx, template }: RenderParams): Promise<RenderResul
       },
 
       body: template
-        .replace('</head>', body.head + '<style>' + body.css.code + '</style></head>')
+        .replace('</head>', body.head + '</head>')
         .replace('<body>', '<body>' + body.html)
     };
   }

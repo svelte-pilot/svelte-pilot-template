@@ -1,7 +1,7 @@
 // only for svelte-vscode plugin
-const preprocess = require('svelte-preprocess');
+import preprocess from 'svelte-preprocess';
 
-module.exports = {
+export default {
   preprocess: [
     preprocess({ postcss: true })
   ]

@@ -9,7 +9,7 @@ export default {
 
   output: {
     file: 'dist/server/index.js',
-    format: 'cjs'
+    format: 'es'
   },
 
   plugins: [

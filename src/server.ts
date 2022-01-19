@@ -6,8 +6,7 @@ import render from './server-render';
 import template from './index.html';
 
 const PORT = Number(process.env.PORT) || 3000;
-
-const serve = serveStatic(path.resolve(__dirname, '../client'));
+const serve = serveStatic(path.resolve(path.dirname(new URL(import.meta.url).pathname), '../client'));
 
 http.createServer(async(req, res) => {
   const url = req.url as string;

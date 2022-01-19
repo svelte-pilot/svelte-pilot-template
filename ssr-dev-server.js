@@ -1,7 +1,7 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const { createServer } = require('vite');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { createServer } from 'vite';
 
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -14,7 +14,7 @@ async function main() {
     vite.middlewares(req, res, async() => {
       try {
         // 1. Read index.html
-        let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+        let template = fs.readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf-8');
 
         // 2. Apply vite HTML transforms. This injects the vite HMR client, and
         //    also applies HTML transforms from Vite plugins, e.g. global preambles
