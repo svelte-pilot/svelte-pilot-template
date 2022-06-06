@@ -94,7 +94,7 @@
     <li><RouterLink to="/?page=2">page 2 (pushState)</RouterLink></li>
   </ul>
 
-  <pre>sstState: {JSON.stringify(ssrState, null, 2)}</pre>
+  <pre>ssrState: {JSON.stringify(ssrState, null, 2)}</pre>
 
   <p>On the client side, when a navigation is triggered through <code>history.pushState</code> /
     <code>history.replaceState</code> / <code>popstate</code> event, the state object will be purged.</p>
