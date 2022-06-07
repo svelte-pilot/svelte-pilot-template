@@ -3,8 +3,8 @@ A Svelte project template with a powerful [router]((https://github.com/jiangfeng
 
 ## Demo
 SSR using AWS Lambda function hosted on Netlify.
-- Link: https://svelte-vite-ssr.netlify.app/
-- Git: https://github.com/jiangfengming/svelte-vite-ssr-demo
+
+https://svelte-vite-ssr.netlify.app/
 
 ## Commands
 ### Create a project from template
