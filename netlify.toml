@@ -1,9 +1,9 @@
 [build]
   publish = "dist/client/"
-  command = "npm run build:ssr"
+  command = "npm run build:netlify"
 
 [functions]
-  directory = "dist/server"
+  directory = "dist/server/"
 
 [[redirects]]
   from = "/"
