@@ -2,7 +2,7 @@ import path from 'path';
 import mime from 'mime';
 
 export default manifest => {
-  for (let p in manifest) {
+  for (const p in manifest) {
     if (!p.endsWith('.svelte') || p.startsWith('node_modules') || p.startsWith('\u0000')) {
       delete manifest[p];
       continue;
@@ -38,7 +38,7 @@ export default manifest => {
         code: content
       };
     }
-  }
+  };
 };
 
 const reg = {};
