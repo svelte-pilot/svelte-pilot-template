@@ -4,8 +4,8 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import sveltePreprocess from 'svelte-preprocess';
 import htmlAsset from 'svelte-preprocess-html-asset';
 import cssHash from 'svelte-preprocess-css-hash';
-import preloadLink from 'svelte-preprocess-preload-link';
 import urlToModule from 'rollup-plugin-import-meta-url-to-module';
+import preloadLink from './svelte-preprocess-preload-link.js';
 
 export default ({ command }) => {
   const isDev = command === 'serve';
@@ -20,8 +20,7 @@ export default ({ command }) => {
   ];
 
   if (isBuildSSR) {
-    const manifest = JSON.parse(fs.readFileSync('./dist/tmp/ssr-manifest.json', 'utf-8'));
-    preprocess.push(preloadLink({ manifest }));
+    preprocess.push(preloadLink(JSON.parse(fs.readFileSync('./dist/tmp/ssr-manifest.json', 'utf-8'))));
   }
 
   const cfg = {
