@@ -41,7 +41,15 @@ export default manifest => {
   }
 };
 
+const reg = {};
+
 function preloadLink(href) {
+  if (reg[href]) {
+    return '';
+  } else {
+    reg[href] = true;
+  }
+
   const ext = href.split('.').pop();
 
   if (ext === 'js') {
