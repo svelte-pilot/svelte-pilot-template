@@ -7,7 +7,8 @@ const PORT = Number(process.env.PORT) || 3000;
 
 async function main() {
   const vite = await createServer({
-    server: { middlewareMode: true }
+    server: { middlewareMode: true },
+    appType: 'custom'
   });
 
   http.createServer((req, res) => {
