@@ -47,7 +47,7 @@
 <script lang="ts">
   export let page = 1;
   export let ssrState: APIResult | null = null;
-  export let childState: Object | null = null;
+  export let childState: Record<string, unknown> | null = null;
 
   // Initialize data from SSR state.
   let data = ssrState;

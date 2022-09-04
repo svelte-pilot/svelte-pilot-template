@@ -15,7 +15,7 @@ export default new Router({
         {
           path: '/',
           component: () => import('./views/Home.svelte'),
-          props: route => ({ page: route.query.int('page', { defaults: 1 }) })
+          props: route => ({ page: route.query.int('page', { default: 1 }) })
         }
       ]
     }

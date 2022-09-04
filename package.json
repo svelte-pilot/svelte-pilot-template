@@ -45,6 +45,6 @@
     "@netlify/functions": "^1.2.0",
     "serve-static": "^1.15.0",
     "svelte": "^3.50.0",
-    "svelte-pilot": "^0.4.0"
+    "svelte-pilot": "^0.4.3"
   }
 }
