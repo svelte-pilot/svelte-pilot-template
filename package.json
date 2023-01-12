@@ -6,8 +6,8 @@
     "dev:csr": "vite --port 3000",
     "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 PORT=3000 node ssr-dev-server",
     "build:csr": "vite build --emptyOutDir --outDir dist",
-    "build:ssr": "export VITE_SVELTE_HYDRATABLE=1 && rm -rdf dist && vite build --ssrManifest --outDir dist/client && mkdir dist/tmp && mv dist/client/ssr-manifest.json dist/tmp/ && cp dist/client/index.html dist/tmp/ && cp src/server.ts dist/tmp/ && vite build --ssr src/server-render.ts --outDir dist/tmp && rollup -c rollup.server.config.js && rm -rdf dist/tmp",
-    "build:netlify": "export VITE_SVELTE_HYDRATABLE=1 && rm -rdf dist && vite build --ssrManifest --outDir dist/client && mkdir dist/tmp && mv dist/client/ssr-manifest.json dist/tmp/ && cp dist/client/index.html dist/tmp/ && cp src/netlify.ts dist/tmp/server.ts && vite build --ssr src/server-render.ts --outDir dist/tmp && rollup -c rollup.server.config.js && rm -rdf dist/tmp",
+    "build:ssr": "export VITE_SVELTE_HYDRATABLE=1 && rm -rdf dist && vite build --ssrManifest --outDir dist/client && vite build --ssr src/server-render.ts --outDir dist/tmp && cp src/server.ts dist/tmp/ && rollup -c rollup.server.config.js && rm -rdf dist/tmp",
+    "build:netlify": "export VITE_SVELTE_HYDRATABLE=1 && rm -rdf dist && vite build --ssrManifest --outDir dist/client && vite build --ssr src/server-render.ts --outDir dist/tmp && cp src/netlify.ts dist/tmp/server.ts && rollup -c rollup.server.config.js && rm -rdf dist/tmp",
     "serve:csr": "vite preview ./ --port 3000",
     "serve:ssr": "PORT=3000 node dist/server"
   },

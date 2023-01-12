@@ -7,11 +7,8 @@ import cssHash from 'svelte-preprocess-css-hash';
 import urlToModule from 'rollup-plugin-import-meta-url-to-module';
 import preloadLink from './svelte-preprocess-preload-link.js';
 
-export default ({ command }) => {
-  const isDev = command === 'serve';
-  const isProd = !isDev;
+export default ({ ssrBuild }) => {
   const mode = process.env.VITE_MODE;
-  const isBuildSSR = process.argv.includes('--ssr');
 
   const preprocess = [
     sveltePreprocess({ postcss: true }),
@@ -19,17 +16,15 @@ export default ({ command }) => {
     cssHash()
   ];
 
-  if (isBuildSSR) {
-    preprocess.push(preloadLink(JSON.parse(fs.readFileSync('./dist/tmp/ssr-manifest.json', 'utf-8'))));
+  if (ssrBuild) {
+    preprocess.push(preloadLink(JSON.parse(fs.readFileSync('./dist/client/ssr-manifest.json', 'utf-8'))));
   }
 
-  const cfg = {
+  return {
     mode,
-    isProduction: isProd,
 
     plugins: [
       svelte({
-        hot: isDev,
         preprocess,
 
         compilerOptions: {
@@ -39,7 +34,9 @@ export default ({ command }) => {
 
       urlToModule({
         optimizeHref: true
-      })
+      }),
+
+      legacy()
     ],
 
     build: {
@@ -52,10 +49,4 @@ export default ({ command }) => {
       noExternal: ['svelte-pilot']
     }
   };
-
-  if (isProd && !isBuildSSR) {
-    cfg.plugins.push(legacy());
-  }
-
-  return cfg;
 };

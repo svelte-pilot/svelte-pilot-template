@@ -8,6 +8,7 @@ export default {
   input: 'dist/tmp/server.ts',
 
   output: {
+    inlineDynamicImports: true,
     file: 'dist/server/index.js',
     format: 'es'
   },

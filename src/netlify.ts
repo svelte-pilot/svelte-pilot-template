@@ -1,7 +1,7 @@
 import { Handler } from '@netlify/functions';
 import render from './server-render';
 // @ts-expect-error handle by rollup-plugin-string
-import template from './index.html';
+import template from '../client/index.html';
 
 const handler: Handler = async event => {
   const { statusCode, headers, body, error } = await render({
