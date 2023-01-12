@@ -1,26 +1,28 @@
 import { ServerApp } from 'svelte-pilot';
 import router from './router';
+import SSRContext from './ssr-context';
 
-type RenderParams = {
-  url: string,
-  ctx?: unknown,
-  template: string,
+type Params = {
+  url: string;
+  headers: Record<string, string | undefined>;
+  template: string;
 };
 
-type RenderResult = {
-  error?: Error,
-  status: number,
-  headers?: Record<string, string>,
-  body?: string
+export type Response = {
+  statusCode: number;
+  statusMessage?: string;
+  headers: Record<string, string | string[] | undefined>;
+  body?: string;
+  error?: Error;
 };
 
-export default async function(args: RenderParams): Promise<RenderResult> {
+export default async function(args: Params): Promise<Response> {
   try {
     return await render(args);
   } catch (e) {
     return {
       error: e as Error,
-      status: 500,
+      statusCode: 500,
 
       headers: {
         'Content-Type': 'text/html',
@@ -32,22 +34,23 @@ export default async function(args: RenderParams): Promise<RenderResult> {
   }
 }
 
-async function render({ url, ctx, template }: RenderParams): Promise<RenderResult> {
-  const _url = new URL(url, 'http://127.0.0.1');
-  const matchedRoute = await router.handle(_url.href, ctx);
+async function render({ url, headers, template }: Params): Promise<Response> {
+  const urlObj = new URL(url, 'http://127.0.0.1');
+  const ctx = new SSRContext(headers);
+  const matchedRoute = await router.handle(urlObj.href, ctx);
 
   if (!matchedRoute) {
     console.error('No route found for url:', url);
 
-    if (_url.pathname === '/') {
+    if (urlObj.pathname === '/') {
       return {
-        status: 404,
+        statusCode: 404,
         body: 'Page Not Found',
         headers: { 'content-type': 'text/plain' }
       };
     } else {
       return {
-        status: 301,
+        statusCode: 301,
 
         headers: {
           location: '/',
@@ -57,32 +60,29 @@ async function render({ url, ctx, template }: RenderParams): Promise<RenderResul
     }
   }
 
-  const { route, ssrState } = matchedRoute;
-
-  const res = route.meta.response as { status?: number, headers?: Record<string, string> } | null;
-
-  if (res?.headers?.location) {
+  if (ctx.getHeader('location')) {
     return {
-      status: res.status || 301,
-      headers: res.headers
-    };
-  } else {
-    const body = ServerApp.render({ router, route, ssrState });
-    body.html += `<script>__SSR_STATE__ = ${serialize(ssrState)}</script>`;
-
-    return {
-      status: res?.status || 200,
-
-      headers: {
-        'Content-Type': 'text/html',
-        ...res?.headers
-      },
-
-      body: template
-        .replace('</head>', body.head + '</head>')
-        .replace('<body>', '<body>' + body.html)
+      statusCode: ctx.res.statusCode || 301,
+      headers: ctx.res.headers
     };
   }
+
+  const { route, ssrState } = matchedRoute;
+  const body = ServerApp.render({ router, route, ssrState });
+  body.html += `<script>__SSR_STATE__ = ${serialize(ssrState)}</script>`;
+
+  return {
+    statusCode: ctx.res.statusCode || 200,
+
+    headers: {
+      'Content-Type': 'text/html',
+      ...ctx.res.headers
+    },
+
+    body: template
+      .replace('</head>', body.head + '</head>')
+      .replace('<body>', '<body>' + body.html)
+  };
 }
 
 function serialize(data: unknown) {

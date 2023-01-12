@@ -18,20 +18,11 @@ http.createServer(async(req, res) => {
       res.end('Not Found');
     });
   } else {
-    const { error, status, headers, body } = await render(
+    const { statusCode, statusMessage, headers, body, error } = await render(
       {
         url,
         template,
-
-        ctx: {
-          cookies: req.headers.cookie
-            ? Object.fromEntries(
-              new URLSearchParams(req.headers.cookie.replace(/;\s*/g, '&')).entries()
-            )
-            : {},
-
-          headers: req.headers
-        }
+        headers: req.headers as Record<string, string>
       }
     );
 
@@ -39,7 +30,11 @@ http.createServer(async(req, res) => {
       console.error(error);
     }
 
-    res.writeHead(status, headers);
+    if (statusMessage) {
+      res.statusMessage = statusMessage;
+    }
+
+    res.writeHead(statusCode, headers);
     res.end(body);
   }
 }).listen(PORT);

@@ -1,14 +1,16 @@
 <script context="module" lang="ts">
   import type { Route } from 'svelte-pilot';
-  import type { SSRContext } from '/src/types';
+  import type SSRContext from '/src/ssr-context';
 
   type Anwser = {
-    answer: number
+    answer: number;
   };
 
   export type SSRState = Anwser;
 
-  export async function load({ question }: { question: string }, route: Route, ssrCtx: SSRContext) {
+  export async function load({ question }: { question: string }, route: Route, ctx: SSRContext) {
+    console.log(ctx.req.headers);
+
     const ssrState = await getAnswer(question);
     return { ssrState };
   }

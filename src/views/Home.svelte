@@ -1,30 +1,25 @@
 <script context="module" lang="ts">
   import { RouterLink } from 'svelte-pilot';
   import type { Route } from 'svelte-pilot';
-  import type { SSRContext } from '/src/types';
+  import type SSRContext from '/src/ssr-context';
   import Child, { load as preloadChild } from './Child.svelte';
 
   type APIResult = {
-    title: string,
-    content: string,
-    question: string
+    title: string;
+    content: string;
+    question: string;
   };
 
-  export async function load({ page = 1 }: { page: number}, route: Route, ssrCtx: SSRContext) {
+  export async function load({ page = 1 }: { page: number}, route: Route, ctx: SSRContext) {
     // Mock http request
-    const ssrState = await fetchData(page, ssrCtx.cookies.token);
+    const ssrState = await fetchData(page, ctx.req.cookies.token);
 
     // preload child component
-    const childState = await preloadChild({ question: ssrState.question }, route, ssrCtx);
+    const childState = await preloadChild({ question: ssrState.question }, route, ctx);
 
     // Set response headers. Optional
-    route.meta.response = {
-      status: 200,
-
-      headers: {
-        'X-Foo': 'Bar'
-      }
-    };
+    ctx.res.statusCode = 200;
+    ctx.setHeader('X-Foo', 'Bar');
 
     // Returned data will be passed to component props
     return {

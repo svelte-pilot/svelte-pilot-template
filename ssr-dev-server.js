@@ -30,25 +30,21 @@ async function main() {
         // 4. render the app HTML. This assumes entry-server.js's exported `render`
         //    function calls appropriate framework SSR APIs,
         //    e.g. ReacDOMServer.renderToString()
-        const { error, status, headers, body } = await render({
+        const { statusCode, statusMessage, headers, body, error } = await render({
           url: req.url,
-
-          ctx: {
-            cookies: req.headers.cookie
-              ? Object.fromEntries(new URLSearchParams(req.headers.cookie.replace(/;\s*/g, '&')).entries())
-              : {},
-
-            headers: req.headers
-          },
-
-          template
+          template,
+          headers: req.headers
         });
 
         if (error) {
           throw error;
         }
 
-        res.writeHead(status, headers);
+        if (statusMessage) {
+          res.statusMessage = statusMessage;
+        }
+
+        res.writeHead(statusCode, headers);
         res.end(body);
       } catch (e) {
         // If an error is caught, let vite fix the stracktrace so it maps back to

@@ -3,13 +3,12 @@ module.exports = {
   parser: '@typescript-eslint/parser',
 
   plugins: [
-    'ext',
     '@typescript-eslint',
     'svelte3'
   ],
 
   extends: [
-    'enough',
+    'unambiguous',
     'plugin:@typescript-eslint/recommended'
   ],
 
@@ -20,32 +19,21 @@ module.exports = {
 
   overrides: [
     {
-      // enable the rule specifically for TypeScript files
-      files: ['*.ts', '*.tsx'],
-
-      rules: {
-        '@typescript-eslint/explicit-module-boundary-types': 'error',
-        '@typescript-eslint/no-var-requires': 'error'
-      }
-    },
-
-    {
       files: ['*.svelte'],
       processor: 'svelte3/svelte3',
 
       rules: {
-        'no-multiple-empty-lines': 'off',
-        'no-duplicate-imports': 'off'
+        'no-multiple-empty-lines': ['error', { max: 2, maxBOF: 2, maxEOF: 0 }],
+        'no-duplicate-imports': 'off',
+        'no-undef-init': 'off'
       }
     }
   ],
 
   rules: {
-    'ext/lines-between-object-properties': ['error', 'always', { exceptBetweenSingleLines: true }],
     'no-extra-parens': 'off',
     '@typescript-eslint/no-extra-parens': 'error',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-var-requires': 'off'
+    '@typescript-eslint/member-delimiter-style': 'error'
   },
 
   settings: {

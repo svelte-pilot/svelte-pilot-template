@@ -4,31 +4,32 @@ import render from './server-render';
 import template from './index.html';
 
 const handler: Handler = async event => {
-  const { error, status, headers, body } = await render(
-    {
-      url: event.rawUrl,
-      template,
-
-      ctx: {
-        cookies: event.headers.cookie
-          ? Object.fromEntries(
-            new URLSearchParams(event.headers.cookie.replace(/;\s*/g, '&')).entries()
-          )
-          : {},
-
-        headers: event.headers
-      }
-    }
-  );
+  const { statusCode, headers, body, error } = await render({
+    url: event.rawUrl,
+    template,
+    headers: event.headers
+  });
 
   if (error) {
     console.error(error);
   }
 
+  const singleValueHeaders: Record<string, string> = {};
+  const multiValueHeaders: Record<string, string[]> = {};
+
+  for (const [key, value] of Object.entries(headers)) {
+    if (Array.isArray(value)) {
+      multiValueHeaders[key] = value;
+    } else if (value) {
+      singleValueHeaders[key] = value;
+    }
+  }
+
   return {
-    statusCode: status,
+    statusCode,
     body,
-    headers
+    headers: singleValueHeaders,
+    multiValueHeaders
   };
 };
 
