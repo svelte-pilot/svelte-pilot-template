@@ -3,7 +3,7 @@ import router from './router';
 
 declare global {
   interface Window {
-    __SSR_STATE__: SSRState
+    __SSR_STATE__: SSRState;
   }
 }
 
