@@ -81,7 +81,7 @@ async function render({ url, headers, template }: Params): Promise<Response> {
 
     body: template
       .replace('</head>', body.head + '</head>')
-      .replace('<body>', '<body>' + body.html)
+      .replace('</body>', body.html + '</body>')
   };
 }
 
