@@ -1,5 +1,5 @@
 # svelte-vite-ssr
-svelte-vite-ssr is a project template for building Svelte applications with a powerful router, SSR (Server-Side Rendering), CSR (Client-Side Rendering), HMR (Hot Module Replacement), <link rel="preload"> directives, and other useful features.
+svelte-vite-ssr is a project template for building Svelte applications with a powerful [router](https://github.com/jiangfengming/svelte-pilot), SSR (Server-Side Rendering), CSR (Client-Side Rendering), HMR (Hot Module Replacement), `<link rel="preload">` directives, and other useful features.
 
 ## Demo
 See the SSR implementation in action using an AWS Lambda function hosted on Netlify:
