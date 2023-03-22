@@ -3,6 +3,10 @@ import render from '../server-render';
 import template from '../../client/index.html';
 
 export default async(req: Request) => {
+  if (req.url.startsWith('/_assets/')) {
+    return;
+  }
+
   const result = await render({
     url: req.url,
     headers: Object.fromEntries([...req.headers.entries()]),
