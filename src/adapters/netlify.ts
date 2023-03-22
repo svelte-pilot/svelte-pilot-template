@@ -3,7 +3,7 @@ import render from '../server-render';
 // @ts-expect-error handle by rollup-plugin-string
 import template from '../../client/index.html';
 
-const handler: Handler = async event => {
+export const handler: Handler = async event => {
   const url = new URL(event.rawUrl);
 
   const { statusCode, headers, body, error } = await render({
@@ -34,5 +34,3 @@ const handler: Handler = async event => {
     multiValueHeaders
   };
 };
-
-export { handler };
