@@ -3,7 +3,7 @@ import render from '../server-render';
 import template from '../../client/index.html';
 
 export default async(req: Request) => {
-  if (req.url.startsWith('/_assets/')) {
+  if (new URL(req.url).pathname.startsWith('/_assets/')) {
     return;
   }
 
