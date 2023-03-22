@@ -6,5 +6,5 @@
   edge_functions = "dist/server/"
 
 [[edge_functions]]
-  path = "/*"
+  path = "!/_assets/*"
   function = "index"
