@@ -1,10 +1,19 @@
-# Place this file in the root folder as 'netlify.toml'.
+# Place this file in the root folder
 
 [build]
   publish = "dist/client/"
-  command = "npm run build:netlify-edge"
-  edge_functions = "dist/server/"
+  command = "npm run build:netlify"
 
-[[edge_functions]]
-  path = "/*"
-  function = "index"
+[functions]
+  directory = "dist/server/"
+
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/index"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/index"
+  status = 200
