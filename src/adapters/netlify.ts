@@ -4,8 +4,10 @@ import render from '../server-render';
 import template from '../../client/index.html';
 
 const handler: Handler = async event => {
+  const url = new URL(event.rawUrl);
+
   const { statusCode, headers, body, error } = await render({
-    url: event.rawUrl,
+    url: url.pathname + url.search,
     template,
     headers: event.headers
   });
