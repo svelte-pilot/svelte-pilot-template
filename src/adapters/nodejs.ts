@@ -1,7 +1,7 @@
 import http from 'http';
 import path from 'path';
 import serveStatic from 'serve-static';
-import render from './server-render';
+import render from '../server-render';
 // @ts-expect-error handle by rollup-plugin-string
 import template from '../client/index.html';
 

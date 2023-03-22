@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import render from './server-render';
+import render from '../server-render';
 // @ts-expect-error handle by rollup-plugin-string
 import template from '../client/index.html';
 

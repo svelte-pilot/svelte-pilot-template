@@ -5,8 +5,6 @@ import { string } from 'rollup-plugin-string';
 import resolve from '@rollup/plugin-node-resolve';
 
 export default {
-  input: 'dist/tmp/server.ts',
-
   output: {
     inlineDynamicImports: true,
     file: 'dist/server/index.js',
