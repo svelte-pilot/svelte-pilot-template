@@ -1,6 +1,6 @@
 import render from '../server-render';
 // @ts-expect-error handle by rollup-plugin-string
-import template from '../client/index.html';
+import template from '../../client/index.html';
 
 export default async(req: Request) => {
   const result = await render({
