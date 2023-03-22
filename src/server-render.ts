@@ -81,8 +81,8 @@ async function render({ url, headers, template }: Params): Promise<Response> {
 
     body: template
       .replace('</head>', body.head + '</head>')
-      .replace('</body>', body.html + '</body>')
-  };
+      .replace(/<body.*?>/, $0 => $0 + body.html)
+    };
 }
 
 function serialize(data: unknown) {
