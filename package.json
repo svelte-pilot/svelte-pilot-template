@@ -11,7 +11,7 @@
     "build:nodejs": "npm run build:server && rollup -c -i dist/tmp/adapters/nodejs/index.ts && npm run build:clean",
     "build:netlify": "npm run build:server && rollup -c -i dist/tmp/adapters/netlify/index.ts && npm run build:clean",
     "build:netlify-edge": "npm run build:server && rollup -c -i dist/tmp/adapters/netlify-edge/index.ts && npm run build:clean",
-    "build:cloudflare": "npm run build:server && rollup -c -i dist/tmp/adapters/cloudflare/index.ts -o functions/[[catchall]].js && npm run build:clean",
+    "build:cloudflare": "npm run build:server && rollup -c -i dist/tmp/adapters/cloudflare/index.ts -o functions/[[catchall]].js && cp src/adapters/cloudflare/_routes.json dist/client/ && npm run build:clean",
     "serve:csr": "vite preview ./ --port 3000",
     "serve:nodejs": "PORT=3000 node dist/server"
   },
