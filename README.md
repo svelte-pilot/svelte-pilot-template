@@ -4,7 +4,7 @@ svelte-vite-ssr is a project template for building Svelte applications with a po
 ## Demo
 https://svelte-vite-ssr.pages.dev/
 
-## Create a project from template
+## Create a Project from Template
 In your project folder, run:
 
 ```sh
@@ -12,19 +12,19 @@ npm init svelte-vite-ssr
 npm install
 ```
 
-## Run in SSR mode (development)
+## Run in SSR mode (Development)
 ```sh
 npm run dev:ssr
 ```
 
-## Run in CSR mode (development)
+## Run in CSR mode (Development)
 ```sh
 npm run dev:csr
 ```
 
 ## Build SSR
 
-### nodejs server:
+### Node.js Server:
 ```sh
 npm run build:nodejs
 ```
@@ -46,27 +46,26 @@ wrangler pages publish dist/client
 * Place `src/adapters/netlify/netlify.toml` in the root directory.
 * Deploy with `netlify` CLI or link your Git repository to Netlify.
 * Set environment variables in Netlify web UI:
-  AWS_LAMBDA_JS_RUNTIME: nodejs18.x
   NODE_VERSION: 18
 
 ### Netlify Edge Functions:
 * Place `src/adapters/netlify-edge/netlify.toml` in the root directory.
 * Deploy with `netlify` CLI or link your Git repository to Netlify.
 * Set environment variables in Netlify web UI:
-  AWS_LAMBDA_JS_RUNTIME: nodejs18.x
   NODE_VERSION: 18
+  AWS_LAMBDA_JS_RUNTIME: nodejs18.x
 
 ## Build CSR
 ```sh
 npm run build:csr
 ```
 
-## Run nodejs SSR (production)
+## Run Node.js SSR Server (Production)
 ```sh
 npm run serve:nodejs
 ```
 
-## Run CSR (preview)
+## Run CSR Server (Preview)
 In production, you should use web server such as nginx.
 
 ```sh
@@ -81,7 +80,7 @@ Check out [svelte-pilot](https://github.com/jiangfengming/svelte-pilot)
 ### Automatic image importing
 In a svelte file, `<img src="./path/to/img.png">` will automatically import and bundle the image file.
 
-### Passing hashed CSS class names to child components
+### Passing Hashed CSS Class Names to Child Components
 Check out [svelte-preprocess-css-hash](https://github.com/jiangfengming/svelte-preprocess-css-hash)
 
 ### Official svelte-preprocess
