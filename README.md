@@ -2,11 +2,9 @@
 svelte-vite-ssr is a project template for building Svelte applications with a powerful [router](https://github.com/jiangfengming/svelte-pilot), SSR (Server-Side Rendering), CSR (Client-Side Rendering), HMR (Hot Module Replacement), `<link rel="preload">` directives, and other useful features.
 
 ## Demo
-See the SSR implementation in action using an AWS Lambda function hosted on Netlify:
-https://svelte-vite-ssr.netlify.app/
+https://svelte-vite-ssr.pages.dev/
 
-## Commands
-### Create a project from template
+## Create a project from template
 In your project folder, run:
 
 ```sh
@@ -14,17 +12,17 @@ npm init svelte-vite-ssr
 npm install
 ```
 
-### Run in SSR mode (development)
+## Run in SSR mode (development)
 ```sh
 npm run dev:ssr
 ```
 
-### Run in CSR mode (development)
+## Run in CSR mode (development)
 ```sh
 npm run dev:csr
 ```
 
-### Build SSR
+## Build SSR
 
 ### nodejs server:
 ```sh
@@ -58,17 +56,17 @@ wrangler pages publish dist/client
   AWS_LAMBDA_JS_RUNTIME: nodejs18.x
   NODE_VERSION: 18
 
-### Build CSR
+## Build CSR
 ```sh
 npm run build:csr
 ```
 
-### Run SSR (production)
+## Run nodejs SSR (production)
 ```sh
 npm run serve:nodejs
 ```
 
-### Run CSR (preview)
+## Run CSR (preview)
 In production, you should use web server such as nginx.
 
 ```sh
