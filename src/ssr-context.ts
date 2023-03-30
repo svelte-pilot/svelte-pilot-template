@@ -20,13 +20,14 @@ export default class SSRContext {
     error?: Error;
     statusCode?: number;
     statusMessage?: string;
-    rewrite?: string;
     headers: Record<string, string | string[] | undefined>;
     cookies: StringKV;
   } = {
       headers: {},
       cookies: {}
     };
+
+  rewrite?: string;
 
   constructor(headers: StringKV) {
     const cookies = headers.cookie

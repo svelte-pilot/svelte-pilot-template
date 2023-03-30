@@ -23,7 +23,7 @@ function main() {
   delete window.__REWRITE__;
 }
 
-router.handle(window.__REWRITE__ || window.location.href);
+router.handle(window.__REWRITE__ || location.href);
 
 if (window.__SSR_STATE__) {
   // Wait until the asynchronous components have loaded to prevent screen flash.

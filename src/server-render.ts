@@ -43,12 +43,12 @@ async function render({ url, headers, template }: Params): Promise<Response> {
     throw new Error(`${urlObj.href} did not match any routes, please check your routes config`);
   }
 
-  if (ctx.res.rewrite) {
-    result = await router.handle(ctx.res.rewrite, ctx);
+  if (ctx.rewrite) {
+    result = await router.handle(ctx.rewrite, ctx);
   }
 
   if (!result) {
-    throw new Error(`${ctx.res.rewrite} did not match any routes, please check your routes config`);
+    throw new Error(`${ctx.rewrite} did not match any routes, please check your routes config`);
   }
 
   if (ctx.getHeader('location')) {
@@ -60,10 +60,10 @@ async function render({ url, headers, template }: Params): Promise<Response> {
 
   const { route, ssrState } = result;
   const body = ServerApp.render({ router, route, ssrState });
-  body.html += `<script>__SSR_STATE__ = ${serialize(ssrState || {})}</script>`;
+  body.html += `<script>__SSR_STATE__ = ${serialize(ssrState)}</script>`;
 
-  if (ctx.res.rewrite) {
-    body.html += `<script>__REWRITE__ = ${serialize(ctx.res.rewrite)}</script>`;
+  if (ctx.rewrite) {
+    body.html += `<script>__REWRITE__ = ${serialize(ctx.rewrite)}</script>`;
   }
 
   return {
