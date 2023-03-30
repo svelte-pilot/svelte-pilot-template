@@ -5,7 +5,7 @@ import render from '../../server-render';
 // @ts-expect-error handled by rollup-plugin-string
 import template from '../../../client/index.html';
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 8080;
 const serve = serveStatic(path.resolve(path.dirname(new URL(import.meta.url).pathname), '../client'));
 
 http.createServer(async(req, res) => {

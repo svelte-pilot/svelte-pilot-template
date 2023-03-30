@@ -20,6 +20,7 @@ export default class SSRContext {
     error?: Error;
     statusCode?: number;
     statusMessage?: string;
+    rewrite?: string;
     headers: Record<string, string | string[] | undefined>;
     cookies: StringKV;
   } = {

@@ -2,6 +2,8 @@ import { Router } from 'svelte-pilot';
 import App from './views/App.svelte';
 
 export default new Router({
+  navigateOnStartup: false,
+
   routes: [
     {
       component: App,
@@ -18,6 +20,11 @@ export default new Router({
           props: route => ({ page: route.query.int('page', { default: 1 }) })
         }
       ]
+    },
+
+    {
+      path: '(.*)',
+      component: () => import('./views/NotFound.svelte')
     }
   ]
 });

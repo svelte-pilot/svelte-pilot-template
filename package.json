@@ -3,8 +3,8 @@
   "version": "0.1.2",
   "type": "module",
   "scripts": {
-    "dev:csr": "vite --port 3000",
-    "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 PORT=3000 node ssr-dev-server",
+    "dev:csr": "vite --port 8080",
+    "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 PORT=8080 node ssr-dev-server",
     "build:csr": "vite build --emptyOutDir --outDir dist",
     "build:server": "export VITE_SVELTE_HYDRATABLE=1 && rm -rf dist && vite build --ssrManifest --outDir dist/client && vite build --ssr src/server-render.ts --outDir dist/tmp && cp -r src/adapters dist/tmp",
     "build:clean": "rm -rf dist/tmp && rm dist/client/ssr-manifest.json",
@@ -12,8 +12,8 @@
     "build:netlify": "npm run build:server && rollup -c -i dist/tmp/adapters/netlify/index.ts && npm run build:clean",
     "build:netlify-edge": "npm run build:server && rollup -c -i dist/tmp/adapters/netlify-edge/index.ts && npm run build:clean",
     "build:cloudflare": "npm run build:server && rollup -c -i dist/tmp/adapters/cloudflare/index.ts -o functions/[[catchall]].js && cp src/adapters/cloudflare/_routes.json dist/client/ && npm run build:clean",
-    "serve:csr": "vite preview ./ --port 3000",
-    "serve:nodejs": "PORT=3000 node dist/server"
+    "serve:csr": "vite preview ./ --port 8080",
+    "serve:nodejs": "PORT=8080 node dist/server"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230321.0",
@@ -21,15 +21,14 @@
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
-    "@sveltejs/vite-plugin-svelte": "^2.0.3",
-    "@types/node": "^18.15.10",
+    "@sveltejs/vite-plugin-svelte": "^2.0.4",
+    "@types/node": "^18.15.11",
     "@types/serve-static": "^1.15.1",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "@vitejs/plugin-legacy": "^4.0.2",
-    "eslint": "^8.36.0",
-    "eslint-config-unambiguous": "^0.7.1",
-    "eslint-plugin-svelte3": "^4.0.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-svelte": "^2.23.1",
     "mime": "^3.0.0",
     "postcss": "^8.4.21",
     "postcss-load-config": "^4.0.1",
@@ -48,7 +47,7 @@
   "dependencies": {
     "@netlify/functions": "^1.4.0",
     "serve-static": "^1.15.0",
-    "svelte": "^3.57.0",
-    "svelte-pilot": "^0.4.9"
+    "svelte": "^3.58.0",
+    "svelte-pilot": "^0.4.12"
   }
 }

@@ -1,0 +1,34 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+
+  "parserOptions": {
+    "extraFileExtensions": [".svelte"]
+  },
+
+  "plugins": [
+    "@typescript-eslint"
+  ],
+
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:svelte/recommended"
+  ],
+
+  "env": {
+    "node": true,
+    "browser": true,
+    "es2022": true
+  },
+
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      }
+    }
+  ]
+}

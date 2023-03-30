@@ -3,7 +3,8 @@ import router from './router';
 
 declare global {
   interface Window {
-    __SSR_STATE__: SSRState;
+    __SSR_STATE__?: SSRState;
+    __REWRITE__?: string;
   }
 }
 
@@ -17,11 +18,15 @@ function main() {
       ssrState: window.__SSR_STATE__
     }
   });
+
+  delete window.__SSR_STATE__;
+  delete window.__REWRITE__;
 }
 
+router.handle(window.__REWRITE__ || window.location.href);
+
 if (window.__SSR_STATE__) {
-  // wait unitl async components loaded
-  // prevent screen flash
+  // Wait until the asynchronous components have loaded to prevent screen flash.
   router.once('update', main);
 } else {
   main();

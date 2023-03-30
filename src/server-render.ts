@@ -37,27 +37,18 @@ export default async function(args: Params): Promise<Response> {
 async function render({ url, headers, template }: Params): Promise<Response> {
   const urlObj = new URL(url, 'http://127.0.0.1');
   const ctx = new SSRContext(headers);
-  const matchedRoute = await router.handle(urlObj.href, ctx);
+  let result = await router.handle(urlObj.href, ctx);
 
-  if (!matchedRoute) {
-    console.error('No route found for url:', url);
+  if (!result) {
+    throw new Error(`${urlObj.href} did not match any routes, please check your routes config`);
+  }
 
-    if (urlObj.pathname === '/') {
-      return {
-        statusCode: 404,
-        body: 'Page Not Found',
-        headers: { 'content-type': 'text/plain' }
-      };
-    } else {
-      return {
-        statusCode: 301,
+  if (ctx.res.rewrite) {
+    result = await router.handle(ctx.res.rewrite, ctx);
+  }
 
-        headers: {
-          location: '/',
-          'Cache-Control': 'no-store'
-        }
-      };
-    }
+  if (!result) {
+    throw new Error(`${ctx.res.rewrite} did not match any routes, please check your routes config`);
   }
 
   if (ctx.getHeader('location')) {
@@ -67,9 +58,13 @@ async function render({ url, headers, template }: Params): Promise<Response> {
     };
   }
 
-  const { route, ssrState } = matchedRoute;
+  const { route, ssrState } = result;
   const body = ServerApp.render({ router, route, ssrState });
-  body.html += `<script>__SSR_STATE__ = ${serialize(ssrState)}</script>`;
+  body.html += `<script>__SSR_STATE__ = ${serialize(ssrState || {})}</script>`;
+
+  if (ctx.res.rewrite) {
+    body.html += `<script>__REWRITE__ = ${serialize(ctx.res.rewrite)}</script>`;
+  }
 
   return {
     statusCode: ctx.res.statusCode || 200,

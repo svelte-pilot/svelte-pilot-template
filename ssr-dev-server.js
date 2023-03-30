@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { createServer } from 'vite';
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 8080;
 
 async function main() {
   const vite = await createServer({
