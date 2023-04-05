@@ -16,11 +16,11 @@
     "serve:nodejs": "PORT=8080 node dist/server"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230321.0",
+    "@cloudflare/workers-types": "^4.20230404.0",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@sveltejs/vite-plugin-svelte": "^2.0.4",
     "@types/node": "^18.15.11",
     "@types/serve-static": "^1.15.1",
@@ -48,6 +48,6 @@
     "@netlify/functions": "^1.4.0",
     "serve-static": "^1.15.0",
     "svelte": "^3.58.0",
-    "svelte-pilot": "^0.4.13"
+    "svelte-pilot": "^0.4.14"
   }
 }
