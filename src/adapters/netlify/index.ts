@@ -1,15 +1,15 @@
-import { Handler } from '@netlify/functions';
-import render from '../../server-render';
+import { Handler } from "@netlify/functions";
+import render from "../../server-render";
 // @ts-expect-error handle by rollup-plugin-string
-import template from '../../../client/index.html';
+import template from "../../../client/index.html";
 
-export const handler: Handler = async event => {
+export const handler: Handler = async (event) => {
   const url = new URL(event.rawUrl);
 
   const { statusCode, headers, body, error } = await render({
     url: url.pathname + url.search,
     template,
-    headers: event.headers
+    headers: event.headers,
   });
 
   if (error) {
@@ -31,6 +31,6 @@ export const handler: Handler = async event => {
     statusCode,
     body,
     headers: singleValueHeaders,
-    multiValueHeaders
+    multiValueHeaders,
   };
 };

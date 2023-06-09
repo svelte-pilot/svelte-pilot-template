@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-  import type { Route } from 'svelte-pilot';
-  import type SSRContext from '/src/ssr-context';
+  import { Route } from "svelte-pilot";
+  import SSRContext from "/src/ssr-context";
 
   type Anwser = {
     answer: number;
@@ -8,7 +8,11 @@
 
   export type SSRState = Anwser;
 
-  export async function load({ question }: { question: string }, route: Route, ctx: SSRContext) {
+  export async function load(
+    { question }: { question: string },
+    route: Route,
+    ctx: SSRContext
+  ) {
     console.log(ctx.req.headers);
 
     const ssrState = await getAnswer(question);
@@ -18,7 +22,7 @@
   function getAnswer(question: string) {
     return Promise.resolve({
       question,
-      answer: 42
+      answer: 42,
     });
   }
 </script>

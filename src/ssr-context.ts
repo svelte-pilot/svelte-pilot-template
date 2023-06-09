@@ -5,7 +5,7 @@ export type CookieOptions = {
   expires?: number | string | Date;
   path?: string;
   domain?: string;
-  sameSite?: 'Strict' | 'Lax' | 'None';
+  sameSite?: "Strict" | "Lax" | "None";
   secure?: boolean;
   httpOnly?: boolean;
 };
@@ -23,20 +23,22 @@ export default class SSRContext {
     headers: Record<string, string | string[] | undefined>;
     cookies: StringKV;
   } = {
-      headers: {},
-      cookies: {}
-    };
+    headers: {},
+    cookies: {},
+  };
 
   rewrite?: string;
 
   constructor(headers: StringKV) {
     const cookies = headers.cookie
-      ? Object.fromEntries(new URLSearchParams(headers.cookie.replace(/;\s*/g, '&')).entries())
+      ? Object.fromEntries(
+          new URLSearchParams(headers.cookie.replace(/;\s*/g, "&")).entries()
+        )
       : {};
 
     this.req = {
       headers,
-      cookies
+      cookies,
     };
   }
 
@@ -52,19 +54,23 @@ export default class SSRContext {
     delete this.res.headers[name.toLowerCase()];
   }
 
-  setCookie(name: string, value: string, {
-    maxAge,
-    expires,
-    path,
-    domain,
-    sameSite,
-    secure,
-    httpOnly
-  }: CookieOptions = {}) {
-    let cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+  setCookie(
+    name: string,
+    value: string,
+    {
+      maxAge,
+      expires,
+      path,
+      domain,
+      sameSite,
+      secure,
+      httpOnly,
+    }: CookieOptions = {}
+  ) {
+    let cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
 
     if (maxAge || maxAge === 0) {
-      cookie += '; Max-Age=' + maxAge;
+      cookie += "; Max-Age=" + maxAge;
     }
 
     if (expires) {
@@ -72,38 +78,42 @@ export default class SSRContext {
         expires = new Date(expires);
       }
 
-      cookie += '; Expires=' + (expires instanceof Date ? expires.toUTCString() : expires);
+      cookie +=
+        "; Expires=" +
+        (expires instanceof Date ? expires.toUTCString() : expires);
     }
 
     if (path) {
-      cookie += '; Path=' + path;
+      cookie += "; Path=" + path;
     }
 
     if (domain) {
-      cookie += '; Domain=' + domain;
+      cookie += "; Domain=" + domain;
     }
 
     if (sameSite) {
-      cookie += '; SameSite=' + sameSite;
+      cookie += "; SameSite=" + sameSite;
 
-      if (sameSite === 'None') {
+      if (sameSite === "None") {
         secure = true;
       }
     }
 
     if (secure) {
-      cookie += '; Secure';
+      cookie += "; Secure";
     }
 
     if (httpOnly) {
-      cookie += '; HttpOnly';
+      cookie += "; HttpOnly";
     }
 
-    this.res.headers['set-cookie'] = (this.res.headers['set-cookie'] || []).concat(cookie);
+    this.res.headers["set-cookie"] = (
+      this.res.headers["set-cookie"] || []
+    ).concat(cookie);
     this.res.cookies[name] = value;
   }
 
   removeCookie(name: string, options: CookieOptions = {}) {
-    this.setCookie(name, '', { ...options, maxAge: 0 });
+    this.setCookie(name, "", { ...options, maxAge: 0 });
   }
 }

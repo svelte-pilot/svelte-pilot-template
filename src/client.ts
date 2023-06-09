@@ -1,5 +1,5 @@
-import { ClientApp, SSRState } from 'svelte-pilot';
-import router from './router';
+import { ClientApp, SSRState } from "svelte-pilot";
+import router from "./router";
 
 declare global {
   interface Window {
@@ -15,8 +15,8 @@ function main() {
 
     props: {
       router,
-      ssrState: window.__SSR_STATE__
-    }
+      ssrState: window.__SSR_STATE__,
+    },
   });
 
   delete window.__SSR_STATE__;
@@ -30,13 +30,13 @@ if (window.__REWRITE__) {
 } else {
   router.replace({
     path: location.href,
-    state: history.state
+    state: history.state,
   });
 }
 
 if (window.__SSR_STATE__) {
   // Wait until the asynchronous components have loaded to prevent screen flash.
-  router.once('update', main);
+  router.once("update", main);
 } else {
   main();
 }

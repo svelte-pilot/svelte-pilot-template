@@ -1,6 +1,6 @@
-import { ServerApp } from 'svelte-pilot';
-import router from './router';
-import SSRContext from './ssr-context';
+import { ServerApp } from "svelte-pilot";
+import router from "./router";
+import SSRContext from "./ssr-context";
 
 type Params = {
   url: string;
@@ -16,7 +16,7 @@ export type Response = {
   error?: Error;
 };
 
-export default async function(args: Params): Promise<Response> {
+export default async function (args: Params): Promise<Response> {
   try {
     return await render(args);
   } catch (e) {
@@ -25,22 +25,24 @@ export default async function(args: Params): Promise<Response> {
       statusCode: 500,
 
       headers: {
-        'Content-Type': 'text/html',
-        'Cache-Control': 'no-store'
+        "Content-Type": "text/html",
+        "Cache-Control": "no-store",
       },
 
-      body: args.template // Fallback to CSR
+      body: args.template, // Fallback to CSR
     };
   }
 }
 
 async function render({ url, headers, template }: Params): Promise<Response> {
-  const urlObj = new URL(url, 'http://127.0.0.1');
+  const urlObj = new URL(url, "http://127.0.0.1");
   const ctx = new SSRContext(headers);
   let result = await router.handle(urlObj.href, ctx);
 
   if (!result) {
-    throw new Error(`${urlObj.href} did not match any routes, please check your routes config`);
+    throw new Error(
+      `${urlObj.href} did not match any routes, please check your routes config`
+    );
   }
 
   if (ctx.rewrite) {
@@ -48,13 +50,15 @@ async function render({ url, headers, template }: Params): Promise<Response> {
   }
 
   if (!result) {
-    throw new Error(`${ctx.rewrite} did not match any routes, please check your routes config`);
+    throw new Error(
+      `${ctx.rewrite} did not match any routes, please check your routes config`
+    );
   }
 
-  if (ctx.getHeader('location')) {
+  if (ctx.getHeader("location")) {
     return {
       statusCode: ctx.res.statusCode || 301,
-      headers: ctx.res.headers
+      headers: ctx.res.headers,
     };
   }
 
@@ -70,16 +74,16 @@ async function render({ url, headers, template }: Params): Promise<Response> {
     statusCode: ctx.res.statusCode || 200,
 
     headers: {
-      'Content-Type': 'text/html',
-      ...ctx.res.headers
+      "Content-Type": "text/html",
+      ...ctx.res.headers,
     },
 
     body: template
-      .replace('</head>', body.head + '</head>')
-      .replace(/<body.*?>/, $0 => $0 + body.html)
+      .replace("</head>", body.head + "</head>")
+      .replace(/<body.*?>/, ($0) => $0 + body.html),
   };
 }
 
 function serialize(data: unknown) {
-  return JSON.stringify(data).replace(/</g, '\\u003C').replace(/>/g, '\\u003E');
+  return JSON.stringify(data).replace(/</g, "\\u003C").replace(/>/g, "\\u003E");
 }

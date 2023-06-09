@@ -1,11 +1,17 @@
 {
-  "css.validate": false,
-  "svelte.plugin.css.diagnostics.enable": false,
-  "eslint.validate": [
-    "svelte"
-  ],
-  "files.associations": {
-    "*.svelte": "svelte"
+  "[typescript][javascript][html][css][json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[svelte]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
+  "files.associations": {
+    "*.svelte": "svelte",
+    "*.css": "tailwindcss"
+  },
+  "svelte.enable-ts-plugin": true,
+  "eslint.validate": ["svelte"],
   "editor.tabSize": 2
 }
