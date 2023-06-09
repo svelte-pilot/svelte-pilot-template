@@ -43,10 +43,6 @@ export default ({ ssrBuild }) => {
       assetsInlineLimit: 0,
       assetsDir: '_assets',
       emptyOutDir: false
-    },
-
-    ssr: {
-      noExternal: ['svelte-pilot']
     }
   };
 };
