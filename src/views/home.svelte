@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
   import { Route, RouterLink } from "svelte-pilot";
-  import Child, { load as preloadChild } from "./Child.svelte";
-  import SSRContext from "/src/ssr-context";
+  import SSRContext from "../ssr-context";
+  import Child, { load as preloadChild } from "./child.svelte";
 
   type APIResult = {
     title: string;

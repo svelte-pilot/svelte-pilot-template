@@ -1,22 +1,22 @@
 import { Router } from "svelte-pilot";
-import App from "./views/App.svelte";
+import Layout from "./views/layout.svelte";
 
 export default new Router({
   navigateOnStartup: false,
 
   routes: [
     {
-      component: App,
+      component: Layout,
 
       children: [
         {
           name: "footer",
-          component: () => import("./views/Footer.svelte"),
+          component: () => import("./views/footer.svelte"),
         },
 
         {
           path: "/",
-          component: () => import("./views/Home.svelte"),
+          component: () => import("./views/home.svelte"),
           props: (route) => ({ page: route.query.int("page", { default: 1 }) }),
         },
       ],
@@ -24,7 +24,7 @@ export default new Router({
 
     {
       path: "(.*)",
-      component: () => import("./views/NotFound.svelte"),
+      component: () => import("./views/not-found.svelte"),
     },
   ],
 });
