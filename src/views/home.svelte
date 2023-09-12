@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { Route, RouterLink } from "svelte-pilot";
+  import { RouterLink, LoadFunction } from "svelte-pilot";
   import SSRContext from "../ssr-context";
   import Child, { load as preloadChild } from "./child.svelte";
 
@@ -9,17 +9,17 @@
     question: string;
   };
 
-  export async function load(
-    { page = 1 }: { page: number },
-    route: Route,
-    ctx: SSRContext
-  ) {
+  export const load: LoadFunction<{ page: number }, SSRContext> = async (
+    props,
+    route,
+    ctx
+  ) => {
     // Mock http request
-    const ssrState = await fetchData(page, ctx.req.cookies.token);
+    const data = await fetchData(props.page, ctx.req.cookies.token);
 
     // preload child component
     const childState = await preloadChild(
-      { question: ssrState.question },
+      { question: data.question },
       route,
       ctx
     );
@@ -30,10 +30,13 @@
 
     // Returned data will be passed to component props
     return {
-      ssrState,
+      data,
       childState,
     };
-  }
+  };
+
+  load.watch = ["page"];
+  load.callOnClient = true;
 
   function fetchData(page: number, token?: string | null): Promise<APIResult> {
     return new Promise((resolve) =>
@@ -46,31 +49,15 @@
             ],
             question: "Meaning of life",
           }),
-        100
+        10
       )
     );
   }
 </script>
 
 <script lang="ts">
-  export let page = 1;
-  export let ssrState: APIResult | null = null;
-  export let childState: Record<string, unknown> | null = null;
-
-  // Initialize data from SSR state.
-  let data = ssrState;
-
-  $: onPageChange(page);
-
-  async function onPageChange(page: number) {
-    // SSR state will be set to undefined when history.pushState / history.replaceState / popstate event is called.
-    if (!ssrState) {
-      data = await fetchData(
-        page,
-        new URLSearchParams(document.cookie.replace(/;\s*/g, "&")).get("token")
-      );
-    }
-  }
+  export let data: APIResult;
+  export let childState: Record<string, unknown>;
 
   function setCookie() {
     document.cookie = "token=abcde";
@@ -125,7 +112,7 @@
     </li>
   </ul>
 
-  <pre>ssrState: {JSON.stringify(ssrState, null, 2)}</pre>
+  <pre>ssrState: {JSON.stringify(data, null, 2)}</pre>
 
   <p>
     On the client side, when a navigation is triggered through <code

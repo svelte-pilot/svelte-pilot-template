@@ -9,7 +9,7 @@
   },
   "files.associations": {
     "*.svelte": "svelte",
-    "*.css": "tailwindcss"
+    "*.css": "postcss"
   },
   "svelte.enable-ts-plugin": true,
   "eslint.validate": ["svelte"],

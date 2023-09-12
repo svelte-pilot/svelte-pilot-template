@@ -1,8 +1,11 @@
 import { Router } from "svelte-pilot";
+import SSRContext from "./ssr-context";
 import Layout from "./views/layout.svelte";
 
 export default new Router({
-  navigateOnStartup: false,
+  handleInitialURL: false,
+  mockedSSRContext: new SSRContext({}),
+  ssrState: window?.__SSR_STATE__,
 
   routes: [
     {

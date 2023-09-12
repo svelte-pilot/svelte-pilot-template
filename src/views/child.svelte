@@ -6,17 +6,13 @@
     answer: number;
   };
 
-  export type SSRState = Anwser;
-
   export async function load(
     { question }: { question: string },
     route: Route,
     ctx: SSRContext
   ) {
-    console.log(ctx.req.headers);
-
-    const ssrState = await getAnswer(question);
-    return { ssrState };
+    const data = await getAnswer(question);
+    return { data };
   }
 
   function getAnswer(question: string) {
@@ -29,17 +25,7 @@
 
 <script lang="ts">
   export let question: string;
-  export let ssrState: Anwser | null = null;
-
-  let data = ssrState;
-
-  $: onQuestionChange(question);
-
-  async function onQuestionChange(question: string) {
-    if (!ssrState) {
-      data = await getAnswer(question);
-    }
-  }
+  export let data: Anwser;
 </script>
 
-<p>Question: {question}. Answer: {data?.answer}</p>
+<p>Question: {question}. Answer: {data.answer}</p>

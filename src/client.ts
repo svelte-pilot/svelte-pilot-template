@@ -8,21 +8,6 @@ declare global {
   }
 }
 
-function main() {
-  new ClientApp({
-    target: document.body,
-    hydrate: Boolean(window.__SSR_STATE__),
-
-    props: {
-      router,
-      ssrState: window.__SSR_STATE__,
-    },
-  });
-
-  delete window.__SSR_STATE__;
-  delete window.__REWRITE__;
-}
-
 if (window.__REWRITE__) {
   // Handle the route, but do not change the location.
   // For instance, if the server rewrites the route to a 404 or 500 error page, the location should not be changed.
@@ -39,4 +24,18 @@ if (window.__SSR_STATE__) {
   router.once("update", main);
 } else {
   main();
+}
+
+function main() {
+  new ClientApp({
+    target: document.body,
+    hydrate: Boolean(window.__SSR_STATE__),
+
+    props: {
+      router,
+    },
+  });
+
+  delete window.__SSR_STATE__;
+  delete window.__REWRITE__;
 }

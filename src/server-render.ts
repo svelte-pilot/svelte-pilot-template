@@ -37,19 +37,19 @@ export default async function (args: Params): Promise<Response> {
 async function render({ url, headers, template }: Params): Promise<Response> {
   const urlObj = new URL(url, "http://127.0.0.1");
   const ctx = new SSRContext(headers);
-  let result = await router.handle(urlObj.href, ctx);
+  let route = await router.handle(urlObj.href, ctx);
 
-  if (!result) {
+  if (!route) {
     throw new Error(
       `${urlObj.href} did not match any routes, please check your routes config`
     );
   }
 
   if (ctx.rewrite) {
-    result = await router.handle(ctx.rewrite, ctx);
+    route = await router.handle(ctx.rewrite, ctx);
   }
 
-  if (!result) {
+  if (!route) {
     throw new Error(
       `${ctx.rewrite} did not match any routes, please check your routes config`
     );
@@ -62,9 +62,8 @@ async function render({ url, headers, template }: Params): Promise<Response> {
     };
   }
 
-  const { route, ssrState } = result;
-  const body = ServerApp.render({ router, route, ssrState });
-  body.html += `<script>__SSR_STATE__ = ${serialize(ssrState)}</script>`;
+  const body = ServerApp.render({ router, route });
+  body.html += `<script>__SSR_STATE__ = ${serialize(route.ssrState)}</script>`;
 
   if (ctx.rewrite) {
     body.html += `<script>__REWRITE__ = ${serialize(ctx.rewrite)}</script>`;
