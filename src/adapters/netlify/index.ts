@@ -1,29 +1,30 @@
-import { Handler } from "@netlify/functions";
-import render from "../../server-render";
-// @ts-expect-error handle by rollup-plugin-string
-import template from "../../../client/index.html";
+import type { Handler } from '@netlify/functions'
+import template from '../../../dist/client/index.html?raw'
+import render from '../../render'
 
-export const handler: Handler = async (event) => {
-  const url = new URL(event.rawUrl);
+export const handler: Handler = async event => {
+  const url = new URL(event.rawUrl)
 
-  const { statusCode, headers, body, error } = await render({
+  const {
+    statusCode = 200,
+    headers,
+    body
+  } = await render({
     url: url.pathname + url.search,
     template,
-    headers: event.headers,
-  });
+    headers: event.headers
+  })
 
-  if (error) {
-    console.error(error);
-  }
+  const singleValueHeaders: Record<string, string> = {}
+  const multiValueHeaders: Record<string, string[]> = {}
 
-  const singleValueHeaders: Record<string, string> = {};
-  const multiValueHeaders: Record<string, string[]> = {};
-
-  for (const [key, value] of Object.entries(headers)) {
-    if (Array.isArray(value)) {
-      multiValueHeaders[key] = value;
-    } else if (value) {
-      singleValueHeaders[key] = value;
+  if (headers) {
+    for (const [key, value] of Object.entries(headers)) {
+      if (Array.isArray(value)) {
+        multiValueHeaders[key] = value
+      } else if (value) {
+        singleValueHeaders[key] = value
+      }
     }
   }
 
@@ -31,6 +32,6 @@ export const handler: Handler = async (event) => {
     statusCode,
     body,
     headers: singleValueHeaders,
-    multiValueHeaders,
-  };
-};
+    multiValueHeaders
+  }
+}

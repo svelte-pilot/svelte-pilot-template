@@ -1,33 +1,22 @@
-import { Router } from "svelte-pilot";
-import SSRContext from "./ssr-context";
-import Layout from "./views/layout.svelte";
+import { Router } from 'svelte-pilot'
 
 export default new Router({
-  handleInitialURL: false,
-  mockedSSRContext: new SSRContext({}),
-  ssrState: window?.__SSR_STATE__,
+  callLoadOnClient: true,
 
   routes: [
     {
-      component: Layout,
-
-      children: [
-        {
-          name: "footer",
-          component: () => import("./views/footer.svelte"),
-        },
-
-        {
-          path: "/",
-          component: () => import("./views/home.svelte"),
-          props: (route) => ({ page: route.query.int("page", { default: 1 }) }),
-        },
-      ],
+      path: '/',
+      component: () => import('./views/index.svelte')
     },
 
     {
-      path: "(.*)",
-      component: () => import("./views/not-found.svelte"),
+      path: '/500',
+      component: () => import('./views/500.svelte')
     },
-  ],
-});
+
+    {
+      path: '(.*)',
+      component: () => import('./views/404.svelte')
+    }
+  ]
+})

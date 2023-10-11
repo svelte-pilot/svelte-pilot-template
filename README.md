@@ -1,90 +1,74 @@
-# svelte-vite-ssr
-svelte-vite-ssr is a project template for building Svelte applications with a powerful [router](https://github.com/jiangfengming/svelte-pilot), SSR (Server-Side Rendering), CSR (Client-Side Rendering), HMR (Hot Module Replacement), `<link rel="preload">` directives, and other useful features.
+# Svelte Pilot Template
 
-## Demo
-https://svelte-vite-ssr.pages.dev/
+Kickstart your Svelte projects with our efficient template, enhanced with Server-Side Rendering (SSR) and essential built-in features.
 
-## Create a Project from Template
+## Core Features
+- **Routing:** Powered by [Svelte Pilot](https://github.com/jiangfengming/svelte-pilot).
+- **Preprocessing:** Enhanced with svelte-preprocess.
+- **TypeScript:** Enabled for type safety and robust coding.
+- **Styling:** Integrated with PostCSS and Tailwind CSS.
+- **Image Importing:** Auto-bundles images with `<img src="./path/to/img.png">`.
+- **CSS Isolation:** Enhanced with [svelte-preprocess-css-hash](https://github.com/jiangfengming/svelte-preprocess-css-hash). `<Child class="--child-cls">` becomes `<Child class="--child-cls-HaShEd">`.
+
+## Quick Preview
+Try an editable demo [here](https://stackblitz.com/edit/svelte-pilot-template).
+
+## Project Setup
+
 In your project folder, run:
 
 ```sh
-npm init svelte-vite-ssr
-npm install
+npm init svelte-pilot
+npm i
+
+npm run dev:csr          # CSR mode
+npm run dev:ssr          # SSR mode
 ```
 
-## Run in SSR mode (Development)
+## Build
+
 ```sh
-npm run dev:ssr
+npm run build:csr        # CSR mode
+npm run build:node       # node.js SSR server
+npm run build:cloudflare # Cloudflare Pages
+
+# Netlify Functions
+cp src/adapters/netlify/netlify.toml .
+npm run build:netlify
+
+# Netlify Edge Functions
+cp src/adapters/netlify-edge/netlify.toml .
+npm run build:netlify-edge 
 ```
 
-## Run in CSR mode (Development)
+## Run
+
 ```sh
-npm run dev:csr
+npm run start:csr        # CSR mode
+npm run start:node       # node.js SSR server
 ```
 
-## Build SSR
+## Deploy to Cloud
 
-### Node.js Server:
-```sh
-npm run build:nodejs
-```
+### Cloudflare Pages
 
-### Cloudflare Pages:
 #### Deploy with `wrangler` CLI:
-```sh
-npm run build:cloudflare
-wrangler pages publish dist/client
-```
-
-#### Deploy with Git:
-* Link your Git repository to Cloudflare Pages.
-* Set build configuration:
-  Build command: `npm run build:cloudflare`
-  Build output directory: `/dist/client`
-
-### Netlify Functions
-* Place `src/adapters/netlify/netlify.toml` in the root directory.
-* Deploy with `netlify` CLI or link your Git repository to Netlify.
-* Set environment variables in Netlify web UI:
-  NODE_VERSION: 18
-
-### Netlify Edge Functions:
-* Place `src/adapters/netlify-edge/netlify.toml` in the root directory.
-* Deploy with `netlify` CLI or link your Git repository to Netlify.
-* Set environment variables in Netlify web UI:
-  NODE_VERSION: 18
-  AWS_LAMBDA_JS_RUNTIME: nodejs18.x
-
-## Build CSR
-```sh
-npm run build:csr
-```
-
-## Run Node.js SSR Server (Production)
-```sh
-npm run serve:nodejs
-```
-
-## Run CSR Server (Preview)
-In production, you should use web server such as nginx.
 
 ```sh
-npm run serve:csr
+wrangler pages deploy dist/client
 ```
 
-## Features
+#### Deploy with Git
 
-### Router
-Check out [svelte-pilot](https://github.com/jiangfengming/svelte-pilot)
+1. Link your Git repository to Cloudflare Pages.
+2. Set build configuration:
+   - Build command: `npm run build:cloudflare`
+   - Build output directory: `/dist/client`
 
-### Automatic image importing
-In a svelte file, `<img src="./path/to/img.png">` will automatically import and bundle the image file.
+### Netlify
 
-### Passing Hashed CSS Class Names to Child Components
-Check out [svelte-preprocess-css-hash](https://github.com/jiangfengming/svelte-preprocess-css-hash)
-
-### Official svelte-preprocess
-Check out [svelte-preprocess](https://github.com/sveltejs/svelte-preprocess)
+Deploy with CLI: `netlify deploy` or link your Git repository to Netlify.
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
+
+Licensed under the [MIT License](LICENSE). 

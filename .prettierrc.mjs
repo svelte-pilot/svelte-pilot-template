@@ -1,5 +1,5 @@
 export default {
-  plugins: ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"],
+  plugins: ['prettier-plugin-organize-imports', 'prettier-plugin-tailwindcss'],
   organizeImportsSkipDestructiveCodeActions: true,
 
   // https://gist.github.com/adbutterfield/6b91625b5b07ca2c29f6322245e3e2bb
@@ -45,7 +45,7 @@ export default {
    * semi: <bool>
    * default: true
    */
-  semi: true,
+  semi: false,
 
   /**
    * Quotes
@@ -56,7 +56,7 @@ export default {
    * singleQuote: <bool>
    * default: false
    */
-  singleQuote: false,
+  singleQuote: true,
 
   /**
    * Quote Props
@@ -67,7 +67,7 @@ export default {
    * quoteProps: "<as-needed|consistent|preserve>"
    * default: "as-needed"
    */
-  quoteProps: "as-needed",
+  quoteProps: 'as-needed',
 
   /**
    * JSX Quotes
@@ -89,7 +89,7 @@ export default {
    * trailingComma: "<es5|none|all>"
    * default: 'es5'
    */
-  trailingComma: "es5",
+  trailingComma: 'none',
 
   /**
    * Bracket Spacing
@@ -134,7 +134,7 @@ export default {
    * arrowParens: "<always|avoid>"
    * default: "always"
    */
-  arrowParens: "always",
+  arrowParens: 'avoid',
 
   /**
    * Range
@@ -205,7 +205,7 @@ export default {
    * proseWrap: "<always|never|preserve>"
    * default: "preserve"
    */
-  proseWrap: "preserve",
+  proseWrap: 'preserve',
 
   /**
    * HTML Whitespace Sensitivity
@@ -216,7 +216,7 @@ export default {
    * htmlWhitespaceSensitivity: "<css|strict|ignore>"
    * default: "css"
    */
-  htmlWhitespaceSensitivity: "css",
+  htmlWhitespaceSensitivity: 'css',
 
   /**
    * Vue files script and style tags indentation
@@ -238,7 +238,7 @@ export default {
    * endOfLine: "<lf|crlf|cr|auto>"
    * default: "lf"
    */
-  endOfLine: "lf",
+  endOfLine: 'lf',
 
   /**
    * Embedded Language Formatting
@@ -249,7 +249,7 @@ export default {
    * embeddedLanguageFormatting: "<off|auto>"
    * default: "auto"
    */
-  embeddedLanguageFormatting: "auto",
+  embeddedLanguageFormatting: 'auto',
 
   /**
    * Single Attribute Per Line
@@ -260,5 +260,5 @@ export default {
    * singleAttributePerLine: "<bool>"
    * default: "false"
    */
-  singleAttributePerLine: false,
-};
+  singleAttributePerLine: false
+}

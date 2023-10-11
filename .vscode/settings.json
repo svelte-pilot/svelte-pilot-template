@@ -8,10 +8,8 @@
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },
   "files.associations": {
-    "*.svelte": "svelte",
     "*.css": "postcss"
   },
   "svelte.enable-ts-plugin": true,
-  "eslint.validate": ["svelte"],
   "editor.tabSize": 2
 }
