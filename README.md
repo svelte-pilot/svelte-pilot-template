@@ -11,7 +11,7 @@ Kickstart your Svelte projects with our efficient template, enhanced with Server
 - **CSS Isolation:** Enhanced with [svelte-preprocess-css-hash](https://github.com/jiangfengming/svelte-preprocess-css-hash). `<Child class="--child-cls">` becomes `<Child class="--child-cls-HaShEd">`.
 
 ## Quick Preview
-Try an editable demo [here](https://stackblitz.com/edit/svelte-pilot-template).
+Try an editable demo [here](https://stackblitz.com/~/github.com/jiangfengming/svelte-pilot-template?startScript=dev:ssr).
 
 ## Project Setup
 
