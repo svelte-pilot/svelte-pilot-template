@@ -2,7 +2,7 @@
   import type { Route } from 'svelte-pilot'
   import type { Context } from '../context-interface'
 
-  export async function load(props: never, route: Route, ctx: Context) {
+  export async function load(props: {}, route: Route, ctx: Context) {
     return {
       name: 'World'
     }
