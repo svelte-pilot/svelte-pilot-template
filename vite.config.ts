@@ -1,7 +1,6 @@
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import fs from 'fs'
 import urlToModule from 'rollup-plugin-import-meta-url-to-module'
-import sveltePreprocess from 'svelte-preprocess'
 import cssHash from 'svelte-preprocess-css-hash'
 import htmlAsset from 'svelte-preprocess-html-asset'
 import { defineConfig } from 'vite'
@@ -10,11 +9,7 @@ import preloadLink from './svelte-preprocess-preload-link'
 export default defineConfig(({ ssrBuild }) => {
   const mode = process.env.VITE_MODE
 
-  const preprocess = [
-    sveltePreprocess({ postcss: true }),
-    htmlAsset(),
-    cssHash()
-  ]
+  const preprocess = [vitePreprocess(), htmlAsset(), cssHash()]
 
   if (ssrBuild) {
     preprocess.push(

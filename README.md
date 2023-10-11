@@ -4,7 +4,6 @@ Kickstart your Svelte projects with our efficient template, enhanced with Server
 
 ## Core Features
 - **Routing:** Powered by [Svelte Pilot](https://github.com/jiangfengming/svelte-pilot).
-- **Preprocessing:** Enhanced with svelte-preprocess.
 - **TypeScript:** Enabled for type safety and robust coding.
 - **Styling:** Integrated with PostCSS and Tailwind CSS.
 - **Image Importing:** Auto-bundles images with `<img src="./path/to/img.png">`.
