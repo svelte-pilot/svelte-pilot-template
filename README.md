@@ -30,7 +30,7 @@ npm run dev:ssr          # develop in SSR mode
 ```sh
 npm run build:spa        # build SPA site
 npm run build:node       # node.js SSR server
-npm run build:ssg        # generate static site
+npm run build:ssg        # generate static site. Configure URLs in `ssg` field of `package.json`.
 NOJS=1 npm run build:ssg # generate static site without JS
 npm run build:cloudflare # Cloudflare Pages
 
