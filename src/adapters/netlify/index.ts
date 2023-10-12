@@ -1,6 +1,6 @@
 import type { Handler } from '@netlify/functions'
-import template from '../../../dist/client/index.html?raw'
 import render from '../../render'
+import template from '/dist/client/index.html?raw'
 
 export const handler: Handler = async event => {
   const url = new URL(event.rawUrl)

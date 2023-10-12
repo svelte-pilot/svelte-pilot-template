@@ -1,5 +1,5 @@
-import template from '../../../dist/client/index.html?raw'
 import render from '../../render'
+import template from '/dist/index.html?raw'
 
 export const onRequest: PagesFunction = async ctx => {
   const url = new URL(ctx.request.url)

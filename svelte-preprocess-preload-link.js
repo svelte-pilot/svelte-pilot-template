@@ -1,7 +1,19 @@
+import fs from 'fs'
 import mime from 'mime'
 import path from 'path'
 
-export default manifest => {
+const reg = {}
+
+export default function () {
+  const manifest = JSON.parse(
+    fs.readFileSync(
+      `${process.env.CSR_OUT || 'dist/client'}/ssr-manifest.json`,
+      'utf-8'
+    )
+  )
+
+  const nojs = process.env.NOJS === '1'
+
   for (const p in manifest) {
     if (
       !p.endsWith('.svelte') ||
@@ -47,34 +59,32 @@ export default manifest => {
       }
     }
   }
-}
 
-const reg = {}
+  function preloadLink(href) {
+    if (reg[href]) {
+      return ''
+    } else {
+      reg[href] = true
+    }
 
-function preloadLink(href) {
-  if (reg[href]) {
-    return ''
-  } else {
-    reg[href] = true
-  }
+    const ext = href.split('.').pop()
 
-  const ext = href.split('.').pop()
-
-  if (ext === 'js') {
-    return `<link href="${href}" rel="modulepreload" as="script">`
-  } else if (ext === 'css') {
-    return `<link href="${href}" rel="stylesheet">`
-  } else if (
-    ['jpg', 'jpeg', 'png', 'apng', 'webp', 'gif', 'ico'].includes(ext)
-  ) {
-    return `<link href="${href}" rel="preload" as="image" type="${mime.getType(
-      ext
-    )}">`
-  } else if (['woff', 'woff2', 'ttf', 'otf', 'eot'].includes(ext)) {
-    return `<link href="${href}" rel="preload" as="font" type="${mime.getType(
-      ext
-    )}" crossorigin>`
-  } else {
-    return ''
+    if (ext === 'js') {
+      return nojs ? '' : `<link href="${href}" rel="modulepreload" as="script">`
+    } else if (ext === 'css') {
+      return `<link href="${href}" rel="stylesheet">`
+    } else if (
+      ['jpg', 'jpeg', 'png', 'apng', 'webp', 'gif', 'ico'].includes(ext)
+    ) {
+      return `<link href="${href}" rel="preload" as="image" type="${mime.getType(
+        ext
+      )}">`
+    } else if (['woff', 'woff2', 'ttf', 'otf', 'eot'].includes(ext)) {
+      return `<link href="${href}" rel="preload" as="font" type="${mime.getType(
+        ext
+      )}" crossorigin>`
+    } else {
+      return ''
+    }
   }
 }

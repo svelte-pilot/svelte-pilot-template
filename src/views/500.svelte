@@ -7,4 +7,8 @@
   }
 </script>
 
+<svelte:head>
+  <title>500 Error</title>
+</svelte:head>
+
 <h1>500 Error</h1>

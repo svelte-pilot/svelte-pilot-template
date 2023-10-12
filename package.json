@@ -4,18 +4,24 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev:csr": "vite",
-    "build:csr": "vite build",
-    "start:csr": "sirv dist --single --host --port 5173",
+    "dev:spa": "vite",
+    "build:spa": "vite build",
+    "start:static": "sirv dist --single --host --port 5173",
     "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 node ssr-dev-server",
-    "build:ssr": "export VITE_SVELTE_HYDRATABLE=1 && vite build --ssrManifest --outDir dist/client && vite build --ssr src/adapters/${ADAPTER}/index.ts --outDir ${OUT_DIR:-dist/server} && rm dist/client/ssr-manifest.json",
+    "build:ssr": "export VITE_SVELTE_HYDRATABLE=1 && vite build --ssrManifest --outDir ${CSR_OUT:-dist/client} && vite build --ssr src/adapters/${ADAPTER}/index.ts --outDir ${SSR_OUT:-dist/server} && rm ${CSR_OUT:-dist/client}/ssr-manifest.json",
     "build:node": "ADAPTER=node npm run build:ssr",
-    "build:cloudflare": "ADAPTER=cloudflare OUT_DIR=functions npm run build:ssr && cp src/adapters/cloudflare/_routes.json dist/client/ && mv functions/index.js functions/[[catchall]].js",
+    "build:cloudflare": "ADAPTER=cloudflare CSR_OUT=dist SSR_OUT=functions npm run build:ssr && cp src/adapters/cloudflare/_routes.json dist && mv functions/index.js functions/[[catchall]].js",
     "build:netlify": "ADAPTER=netlify npm run build:ssr",
     "build:netlify-edge": "ADAPTER=netlify-edge npm run build:ssr",
+    "build:ssg": "ADAPTER=ssg CSR_OUT=dist SSR_OUT=.ssg npm run build:ssr && node .ssg/index.js && rm -rf .ssg",
     "start:node": "cd dist/server && node index.js",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
+  "ssg": [
+    "/",
+    "/404",
+    "/500"
+  ],
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231010.0",
     "@netlify/functions": "^2.2.1",

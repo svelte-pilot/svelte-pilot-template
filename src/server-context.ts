@@ -5,16 +5,18 @@ export default class ServerContext implements Context {
   statusMessage?: string
   _rewrite?: string
   headers: Record<string, string | string[] | undefined> = {}
-  cookies: StringKV
+  cookies: StringKV = {}
 
-  constructor(headers: StringKV) {
-    const cookies = headers.cookie
-      ? Object.fromEntries(
-          new URLSearchParams(headers.cookie.replace(/;\s*/g, '&')).entries()
-        )
-      : {}
+  constructor(headers?: StringKV) {
+    if (headers) {
+      const cookies = headers.cookie
+        ? Object.fromEntries(
+            new URLSearchParams(headers.cookie.replace(/;\s*/g, '&')).entries()
+          )
+        : {}
 
-    this.cookies = cookies
+      this.cookies = cookies
+    }
   }
 
   setStatus(code: number, message?: string): void {

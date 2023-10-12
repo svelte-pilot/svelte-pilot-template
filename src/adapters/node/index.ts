@@ -1,7 +1,7 @@
 import http from 'http'
 import sirv from 'sirv'
-import template from '../../../dist/client/index.html?raw'
 import render from '../../render'
+import template from '/dist/client/index.html?raw'
 
 const PORT = Number(process.env.PORT) || 5173
 const serve = sirv('../client')

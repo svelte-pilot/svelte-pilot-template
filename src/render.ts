@@ -4,8 +4,9 @@ import ServerContext from './server-context'
 
 type Params = {
   url: string
-  headers: Record<string, string | undefined>
   template: string
+  headers?: Record<string, string | undefined>
+  nojs?: boolean
 }
 
 export type Response = {
@@ -17,8 +18,9 @@ export type Response = {
 
 export default async function render({
   url,
+  template,
   headers,
-  template
+  nojs
 }: Params): Promise<Response> {
   try {
     const ctx = new ServerContext(headers)
@@ -62,7 +64,9 @@ export default async function render({
       rewrite: ctx._rewrite
     }
 
-    body.html += `<script>__SSR__ = ${serialize(__SSR__)}</script>`
+    if (!nojs) {
+      body.html += `<script>__SSR__ = ${serialize(__SSR__)}</script>`
+    }
 
     return {
       statusCode: ctx.statusCode,

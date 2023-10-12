@@ -1,5 +1,4 @@
 import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
-import fs from 'fs'
 import urlToModule from 'rollup-plugin-import-meta-url-to-module'
 import cssHash from 'svelte-preprocess-css-hash'
 import htmlAsset from 'svelte-preprocess-html-asset'
@@ -12,11 +11,7 @@ export default defineConfig(({ ssrBuild }) => {
   const preprocess = [vitePreprocess(), htmlAsset(), cssHash()]
 
   if (ssrBuild) {
-    preprocess.push(
-      preloadLink(
-        JSON.parse(fs.readFileSync('./dist/client/ssr-manifest.json', 'utf-8'))
-      )
-    )
+    preprocess.push(preloadLink())
   }
 
   return {

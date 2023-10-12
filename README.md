@@ -3,6 +3,7 @@
 Kickstart your Svelte projects with our efficient template, enhanced with Server-Side Rendering (SSR) and essential built-in features.
 
 ## Core Features
+- **Versatile Support**: SSR (Server-side rendering), SSG (Static Site Generation), SPA (Single-page application), or serverless functions - you name it.
 - **Routing:** Powered by [Svelte Pilot](https://github.com/jiangfengming/svelte-pilot).
 - **TypeScript:** Enabled for type safety and robust coding.
 - **Styling:** Integrated with PostCSS and Tailwind CSS.
@@ -20,15 +21,17 @@ In your project folder, run:
 npm init svelte-pilot
 npm i
 
-npm run dev:csr          # CSR mode
-npm run dev:ssr          # SSR mode
+npm run dev:spa          # develop in SPA mode
+npm run dev:ssr          # develop in SSR mode
 ```
 
 ## Build
 
 ```sh
-npm run build:csr        # CSR mode
+npm run build:spa        # build SPA site
 npm run build:node       # node.js SSR server
+npm run build:ssg        # generate static site
+NOJS=1 npm run build:ssg # generate static site without JS
 npm run build:cloudflare # Cloudflare Pages
 
 # Netlify Functions
@@ -43,7 +46,7 @@ npm run build:netlify-edge
 ## Run
 
 ```sh
-npm run start:csr        # CSR mode
+npm run start:static     # start SPA or SSG site
 npm run start:node       # node.js SSR server
 ```
 
@@ -54,7 +57,7 @@ npm run start:node       # node.js SSR server
 #### Deploy with `wrangler` CLI:
 
 ```sh
-wrangler pages deploy dist/client
+wrangler pages deploy dist
 ```
 
 #### Deploy with Git
@@ -62,7 +65,7 @@ wrangler pages deploy dist/client
 1. Link your Git repository to Cloudflare Pages.
 2. Set build configuration:
    - Build command: `npm run build:cloudflare`
-   - Build output directory: `/dist/client`
+   - Build output directory: `dist`
 
 ### Netlify
 

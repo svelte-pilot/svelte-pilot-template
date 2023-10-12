@@ -1,5 +1,5 @@
-import template from '../../../dist/client/index.html?raw'
 import render from '../../render'
+import template from '/dist/client/index.html?raw'
 
 export default async (req: Request) => {
   const url = new URL(req.url)
