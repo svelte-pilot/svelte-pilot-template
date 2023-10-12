@@ -64,7 +64,9 @@ export default async function render({
       rewrite: ctx._rewrite
     }
 
-    if (!nojs) {
+    if (nojs) {
+      body.head = body.head.replace(/<!--.+?-->/g, '')
+    } else {
       body.html += `<script>__SSR__ = ${serialize(__SSR__)}</script>`
     }
 
