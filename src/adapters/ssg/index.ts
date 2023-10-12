@@ -15,17 +15,11 @@ async function main() {
   for (const url of urls) {
     console.log(url)
 
-    let { body = '' } = await render({
+    const { body = '' } = await render({
       url,
       template,
       nojs
     })
-
-    if (nojs) {
-      const parts = body.split('</head>')
-      const head = parts[0].replace(/<!--.+?-->/g, '').replace(/\n\s+\n/g, '\n')
-      body = head + '</head>' + parts[1]
-    }
 
     const filePath = 'dist' + url + (url.endsWith('/') ? 'index.html' : '.html')
 
