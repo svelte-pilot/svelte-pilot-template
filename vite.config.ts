@@ -6,8 +6,6 @@ import { defineConfig } from 'vite'
 import preloadLink from './svelte-preprocess-preload-link'
 
 export default defineConfig(({ ssrBuild }) => {
-  const mode = process.env.VITE_MODE
-
   const preprocess = [vitePreprocess(), htmlAsset(), cssHash()]
 
   if (ssrBuild) {
@@ -15,8 +13,6 @@ export default defineConfig(({ ssrBuild }) => {
   }
 
   return {
-    mode,
-
     plugins: [
       svelte({
         preprocess,
