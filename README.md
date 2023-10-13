@@ -16,7 +16,7 @@ Experience the editable demo on the [StackBlitz Online IDE](https://stackblitz.c
 ## Create a Project
 
 ```sh
-npm init svelte-pilot my-svelte-app
+npm create svelte-pilot my-svelte-app
 cd my-svelte-app
 npm i
 ```
@@ -33,18 +33,19 @@ npm i
 ## Start Development Environment
 
 ```sh
-npm run dev:spa          # Develop in SPA mode
-npm run dev:ssr          # Develop in SSR mode
+npm run dev:spa           # Develop in SPA mode
+npm run dev:ssr           # Develop in SSR mode
+PORT=8080 npm run dev:ssr # Specify the port.
 ```
 
 ## Build
 
 ```sh
-npm run build:spa        # Build SPA site
-npm run build:node       # node.js SSR server
-npm run build:ssg        # Generate static site. Configure URLs in the `ssg` field of `package.json`.
-NOJS=1 npm run build:ssg # Generate static site without JS
-npm run build:cloudflare # Cloudflare Pages
+npm run build:spa         # Build SPA site
+npm run build:ssr         # node.js SSR server
+npm run build:ssg         # Generate static site. Configure URLs in the `ssg` field of `package.json`.
+NOJS=1 npm run build:ssg  # Generate static site without JS
+npm run build:cloudflare  # Cloudflare Pages
 
 # Netlify Functions
 cp src/adapters/netlify/netlify.toml .
@@ -52,14 +53,16 @@ npm run build:netlify
 
 # Netlify Edge Functions
 cp src/adapters/netlify-edge/netlify.toml .
-npm run build:netlify-edge 
+npm run build:netlify-edge
 ```
 
 ## Run
 
 ```sh
-npm run start:static     # Start SPA or SSG site
-npm run start:node       # node.js SSR server
+npx sirv-cli dist --single --host # SPA
+npx sirv-cli dist --host          # SSG
+npm run start:ssr                 # node.js SSR server.
+PORT=8080 npm run start:ssr       # Specify the port.
 ```
 
 ## Deploy to the Cloud
