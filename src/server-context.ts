@@ -4,11 +4,14 @@ export default class ServerContext implements Context {
   statusCode?: number
   statusMessage?: string
   _rewrite?: string
-  headers: Record<string, string | string[] | undefined> = {}
+  resHeaders: Record<string, string | string[] | undefined> = {}
+  reqHeaders: StringKV = {}
   cookies: StringKV = {}
 
   constructor(headers?: StringKV) {
     if (headers) {
+      this.reqHeaders = headers
+
       const cookies = headers.cookie
         ? Object.fromEntries(
             new URLSearchParams(headers.cookie.replace(/;\s*/g, '&')).entries()
@@ -34,7 +37,11 @@ export default class ServerContext implements Context {
   }
 
   setHeader(name: string, value: string | string[]) {
-    this.headers[name.toLowerCase()] = value
+    this.resHeaders[name.toLowerCase()] = value
+  }
+
+  getHeader(name: string) {
+    return this.reqHeaders[name.toLowerCase()]
   }
 
   setCookie(
@@ -95,11 +102,11 @@ export default class ServerContext implements Context {
       cookie += '; HttpOnly'
     }
 
-    if (!this.headers['set-cookie']) {
-      this.headers['set-cookie'] = []
+    if (!this.resHeaders['set-cookie']) {
+      this.resHeaders['set-cookie'] = []
     }
 
-    ;(this.headers['set-cookie'] as string[]).push(cookie)
+    ;(this.resHeaders['set-cookie'] as string[]).push(cookie)
   }
 
   getCookie(name: string) {

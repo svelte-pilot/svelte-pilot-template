@@ -21,6 +21,10 @@ export default class ClientContext implements Context {
     // nop
   }
 
+  getHeader(name: string) {
+    return undefined
+  }
+
   setCookie(name: string, value: string, options?: CookieOptions) {
     cookie.set(name, value, options)
   }
