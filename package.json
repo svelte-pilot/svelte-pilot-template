@@ -6,7 +6,7 @@
   "scripts": {
     "dev:spa": "vite",
     "build:spa": "vite build",
-    "start:static": "npx sirv dist --single --host --port 5173",
+    "start:static": "sirv dist --single --host --port 5173",
     "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 node ssr-dev-server",
     "build:ssr": "export VITE_SVELTE_HYDRATABLE=1 && vite build --ssrManifest --outDir ${CSR_OUT:-dist/client} && vite build --ssr src/adapters/${ADAPTER}/index.ts --outDir ${SSR_OUT:-dist/server} && rm ${CSR_OUT:-dist/client}/ssr-manifest.json",
     "build:node": "ADAPTER=node npm run build:ssr",
@@ -32,6 +32,7 @@
     "prettier-plugin-organize-imports": "^3.2.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
     "rollup-plugin-import-meta-url-to-module": "^0.3.0",
+    "sirv-cli": "^2.0.2",
     "svelte-check": "^3.5.2",
     "svelte-preprocess-css-hash": "^0.1.7",
     "svelte-preprocess-html-asset": "^0.1.7",
