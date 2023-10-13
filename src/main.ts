@@ -1,5 +1,5 @@
 import { ClientApp, type SSRState } from 'svelte-pilot'
-import ClientContext from './client-context'
+import ClientContext from './context/client'
 import router from './router'
 
 declare global {

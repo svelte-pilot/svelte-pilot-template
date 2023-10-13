@@ -6,7 +6,7 @@ import packageJson from '/package.json'
 
 async function main() {
   const urls = packageJson.ssg
-  const nojs = process.env.NOJS == '1'
+  const nojs = process.env.NOJS === '1'
 
   const template = nojs
     ? _template.replace(/<script\s.+?<\/script>/, '')

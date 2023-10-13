@@ -1,12 +1,11 @@
 import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
-import urlToModule from 'rollup-plugin-import-meta-url-to-module'
 import cssHash from 'svelte-preprocess-css-hash'
-import htmlAsset from 'svelte-preprocess-html-asset'
+import { importAssets } from 'svelte-preprocess-import-assets'
 import { defineConfig } from 'vite'
 import preloadLink from './svelte-preprocess-preload-link'
 
 export default defineConfig(({ ssrBuild }) => {
-  const preprocess = [vitePreprocess(), htmlAsset(), cssHash()]
+  const preprocess = [vitePreprocess(), importAssets(), cssHash()]
 
   if (ssrBuild) {
     preprocess.push(preloadLink())
@@ -20,10 +19,6 @@ export default defineConfig(({ ssrBuild }) => {
         compilerOptions: {
           hydratable: Boolean(Number(process.env.VITE_SVELTE_HYDRATABLE))
         }
-      }),
-
-      urlToModule({
-        optimizeHref: true
       })
     ],
 

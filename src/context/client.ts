@@ -1,6 +1,7 @@
 import cookie from 'cookie.js'
-import type { Context, CookieOptions } from './context-interface'
-import router from './router'
+import router from '../router'
+import negotiateLanguage from './negotiateLanguage'
+import type { Context, CookieOptions } from './type'
 
 export default class ClientContext implements Context {
   setStatus(code: number, message?: string | undefined) {
@@ -23,6 +24,10 @@ export default class ClientContext implements Context {
 
   getHeader(name: string) {
     return undefined
+  }
+
+  language(available: string[]) {
+    return negotiateLanguage(navigator.languages, available)
   }
 
   setCookie(name: string, value: string, options?: CookieOptions) {

@@ -1,6 +1,6 @@
 import { ServerApp } from 'svelte-pilot'
+import ServerContext from './context/server'
 import router from './router'
-import ServerContext from './server-context'
 
 type Params = {
   url: string
