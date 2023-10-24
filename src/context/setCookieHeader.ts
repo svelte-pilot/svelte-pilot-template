@@ -1,4 +1,4 @@
-import type { CookieOptions } from './type'
+import type { CookieOptions } from './types'
 
 export default function setCookieHeader(
   name: string,

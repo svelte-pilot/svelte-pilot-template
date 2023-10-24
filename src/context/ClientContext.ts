@@ -1,7 +1,7 @@
 import cookie from 'cookie.js'
 import router from '../router'
 import negotiateLanguage from './negotiateLanguage'
-import type { Context, CookieOptions } from './type'
+import type { Context, CookieOptions } from './types'
 
 export default class ClientContext implements Context {
   setStatus(code: number, message?: string | undefined) {

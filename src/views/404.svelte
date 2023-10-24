@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import type { Route } from 'svelte-pilot'
-  import type { Context } from '../context-interface'
+  import type { Context } from '../context/types'
 
   export async function load(props: unknown, route: Route, ctx: Context) {
     ctx.setStatus(404)

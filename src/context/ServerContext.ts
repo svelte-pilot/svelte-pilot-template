@@ -1,7 +1,7 @@
 import negotiateLanguage from './negotiateLanguage'
 import parseAcceptLanguage from './parseAcceptLanguage'
 import setCookieHeader from './setCookieHeader'
-import type { Context, CookieOptions, StringKV } from './type'
+import type { Context, CookieOptions, StringKV } from './types'
 
 export default class ServerContext implements Context {
   statusCode?: number
@@ -32,11 +32,13 @@ export default class ServerContext implements Context {
 
   rewrite(path: string) {
     this._rewrite = path
+    throw 0
   }
 
   redirect(url: string, statusCode = 302) {
     this.setHeader('location', url)
     this.statusCode = statusCode
+    throw 0
   }
 
   setHeader(name: string, value: string | string[]) {

@@ -1,5 +1,5 @@
 import { ServerApp } from 'svelte-pilot'
-import ServerContext from './context/server'
+import ServerContext from './context/ServerContext'
 import router from './router'
 
 type Params = {
@@ -26,34 +26,36 @@ export default async function render({
     const ctx = new ServerContext(headers)
 
     async function handle(url: string) {
-      const route = await router.handleServer(url, ctx)
+      try {
+        return await router.handleServer(url, ctx)
+      } catch (e) {
+        if (e === 0) {
+          if (ctx._rewrite) {
+            return handle(ctx._rewrite)
+          }
 
-      if (!route) {
-        return
+          return
+        } else {
+          throw e
+        }
       }
-
-      if (ctx._rewrite) {
-        return handle(ctx._rewrite)
-      }
-
-      return route
     }
 
     const route = await handle(new URL(url, 'http://127.0.0.1').href)
 
     if (!route) {
-      return {
-        statusCode: 404,
-        body: import.meta.env.DEV
-          ? `${url} did not match any routes. Did you forget to add a catch-all route?`
-          : '404 Not Found'
-      }
-    }
-
-    if (ctx.headers['location']) {
-      return {
-        statusCode: ctx.statusCode || 302,
-        headers: ctx.headers
+      if (ctx.headers['location']) {
+        return {
+          statusCode: ctx.statusCode || 302,
+          headers: ctx.headers
+        }
+      } else {
+        return {
+          statusCode: 404,
+          body: import.meta.env.DEV
+            ? `${url} did not match any routes. Did you forget to add a catch-all route?`
+            : '404 Not Found'
+        }
       }
     }
 

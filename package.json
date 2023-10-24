@@ -21,10 +21,10 @@
     "/500"
   ],
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20231010.0",
+    "@cloudflare/workers-types": "^4.20231016.0",
     "@sveltejs/vite-plugin-svelte": "^2.4.6",
     "@tsconfig/svelte": "^5.0.2",
-    "@types/node": "^20.8.5",
+    "@types/node": "^20.8.8",
     "mime": "^3.0.0",
     "postcss-preset-env": "^9.2.0",
     "prettier-plugin-organize-imports": "^3.2.3",
@@ -35,13 +35,13 @@
     "tailwindcss": "^3.3.3",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "vite": "^4.4.11"
+    "vite": "^4.5.0"
   },
   "dependencies": {
     "@netlify/functions": "^2.3.0",
     "cookie.js": "^7.0.1",
     "sirv": "^2.0.3",
-    "svelte": "^4.2.1",
-    "svelte-pilot": "0.6.0-6"
+    "svelte": "^4.2.2",
+    "svelte-pilot": "0.6.0-7"
   }
 }
