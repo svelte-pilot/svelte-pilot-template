@@ -8,12 +8,12 @@ export default class ClientContext implements Context {
     // nop
   }
 
-  rewrite(path: string) {
+  rewrite(path: string): never {
     router.handleClient(path)
     throw 0
   }
 
-  redirect(url: string) {
+  redirect(url: string): never {
     router.replace(url)
     throw 0
   }

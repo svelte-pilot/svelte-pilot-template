@@ -30,12 +30,12 @@ export default class ServerContext implements Context {
     this.statusMessage = message
   }
 
-  rewrite(path: string) {
+  rewrite(path: string): never {
     this._rewrite = path
     throw 0
   }
 
-  redirect(url: string, statusCode = 302) {
+  redirect(url: string, statusCode = 302): never {
     this.setHeader('location', url)
     this.statusCode = statusCode
     throw 0

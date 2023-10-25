@@ -15,8 +15,8 @@ export type StringKV = Record<string, string | undefined>
 
 export interface Context {
   setStatus(code: number, message?: string): void
-  rewrite(path: string): void
-  redirect(path: string, statusCode?: number): void
+  rewrite(path: string): never
+  redirect(path: string, statusCode?: number): never
   setHeader(name: string, value: string | string[]): void
   getHeader(name: string): string | undefined
   language(available: string[]): string
