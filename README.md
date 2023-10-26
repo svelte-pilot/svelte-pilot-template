@@ -7,7 +7,7 @@ A template based on the [Svelte Pilot](https://github.com/svelte-pilot/svelte-pi
 - **Powerful Routing and Layout System**: Supported by [Svelte Pilot](https://github.com/svelte-pilot/svelte-pilot).
 - **Integrated with TypeScript**: For type safety and robust coding.
 - **Integrated with PostCSS and Tailwind CSS**: Ready to use without configuration.
-- **Convenient Image Import**: Use the `<img src="./img.png">` tag directly without manually writing `import`.
+- **Convenient Image Import**: With [svelte-preprocess-import-assets](https://github.com/bluwy/svelte-preprocess-import-assets), you can directly import images using the `<img src="./img.png">` tag without manually writing an `import`.
 - **Enhanced CSS Isolation**: Through [svelte-preprocess-css-hash](https://github.com/jiangfengming/svelte-preprocess-css-hash), `<Child class="--child">` becomes `<Child class="--child-HaShEd">`.
 
 ## Quick Preview
