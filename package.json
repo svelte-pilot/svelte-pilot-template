@@ -11,7 +11,7 @@
     "build:cloudflare": "ADAPTER=cloudflare CSR_OUT=dist SSR_OUT=functions npm run build:ssr && cp src/adapters/cloudflare/_routes.json dist && mv functions/index.js functions/[[catchall]].js",
     "build:netlify": "ADAPTER=netlify npm run build:ssr",
     "build:netlify-edge": "ADAPTER=netlify-edge npm run build:ssr",
-    "build:ssg": "ADAPTER=ssg CSR_OUT=dist SSR_OUT=.ssg npm run build:ssr && node .ssg/index.js && rm -rf .ssg && [[ $NOJS -eq 1 ]] && rm dist/**/*.js",
+    "build:ssg": "ADAPTER=ssg CSR_OUT=dist SSR_OUT=.ssg npm run build:ssr && node .ssg/index.js && rm -rf .ssg && [ $NOJS -eq 1 ] && rm dist/**/*.js",
     "start:ssr": "node dist/server/index.js",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
@@ -24,7 +24,7 @@
     "@cloudflare/workers-types": "^4.20231025.0",
     "@sveltejs/vite-plugin-svelte": "^2.4.6",
     "@tsconfig/svelte": "^5.0.2",
-    "@types/node": "^20.8.8",
+    "@types/node": "^20.8.9",
     "mime": "^3.0.0",
     "postcss-preset-env": "^9.2.0",
     "prettier-plugin-organize-imports": "^3.2.3",
@@ -42,6 +42,6 @@
     "cookie.js": "^7.0.1",
     "sirv": "^2.0.3",
     "svelte": "^4.2.2",
-    "svelte-pilot": "0.6.0-7"
+    "svelte-pilot": "0.6.1"
   }
 }
