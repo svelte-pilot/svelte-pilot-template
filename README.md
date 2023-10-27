@@ -30,7 +30,7 @@ npm init svelte-pilot
 npm i
 ```
 
-## Start Development Environment
+## Development
 
 ```sh
 npm run dev:spa           # Develop in SPA mode
@@ -85,3 +85,13 @@ wrangler pages deploy dist
 ### Netlify
 
 Deploy using the `netlify deploy` CLI, or link your Git repository to Netlify.
+
+## FAQ
+
+### Can't run on Windows
+
+```sh
+npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
+```
+
+[How to set shell for npm run-scripts in Windows](https://stackoverflow.com/questions/23243353/how-to-set-shell-for-npm-run-scripts-in-windows)
