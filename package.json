@@ -11,7 +11,7 @@
     "build:cloudflare": "ADAPTER=cloudflare CSR_OUT=dist SSR_OUT=functions npm run build:ssr && cp src/adapters/cloudflare/_routes.json dist && mv functions/index.js functions/[[catchall]].js",
     "build:netlify": "ADAPTER=netlify npm run build:ssr",
     "build:netlify-edge": "ADAPTER=netlify-edge npm run build:ssr",
-    "build:ssg": "ADAPTER=ssg CSR_OUT=dist SSR_OUT=.ssg npm run build:ssr && node .ssg/index.js && rm -rf .ssg && [ $NOJS -eq 1 ] && rm dist/**/*.js",
+    "build:ssg": "ADAPTER=ssg CSR_OUT=dist SSR_OUT=.ssg npm run build:ssr && node .ssg/index.js && rm -rf .ssg && if [ ${NOJS:-0} -eq 1 ]; then rm dist/**/*.js; fi",
     "start:ssr": "node dist/server/index.js",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
