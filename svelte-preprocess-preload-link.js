@@ -7,7 +7,7 @@ const reg = {}
 export default function () {
   const manifest = JSON.parse(
     fs.readFileSync(
-      `${process.env.CSR_OUT || 'dist/client'}/ssr-manifest.json`,
+      `${process.env.CSR_OUT || 'dist/client'}/.vite/ssr-manifest.json`,
       'utf-8'
     )
   )
