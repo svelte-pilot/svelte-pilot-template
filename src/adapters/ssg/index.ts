@@ -2,10 +2,9 @@ import fs from 'fs'
 import path from 'path'
 import render from '../../render'
 import _template from '/dist/index.html?raw'
-import packageJson from '/package.json'
+import urls from '/ssg.json'
 
 async function main() {
-  const urls = packageJson.ssg
   const nojs = process.env.NOJS === '1'
 
   const template = nojs

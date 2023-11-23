@@ -15,11 +15,6 @@
     "start:ssr": "node dist/server/index.js",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
-  "ssg": [
-    "/",
-    "/404",
-    "/500"
-  ],
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231121.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
