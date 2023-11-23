@@ -21,15 +21,15 @@
     "/500"
   ],
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20231025.0",
+    "@cloudflare/workers-types": "^4.20231121.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@tsconfig/svelte": "^5.0.2",
-    "@types/node": "^20.9.3",
+    "@types/node": "^20.9.4",
     "mime": "^3.0.0",
     "postcss-preset-env": "^9.3.0",
     "prettier-plugin-organize-imports": "^3.2.4",
     "prettier-plugin-tailwindcss": "^0.5.7",
-    "svelte-check": "^3.6.0",
+    "svelte-check": "^3.6.1",
     "svelte-preprocess-css-hash": "^0.1.7",
     "svelte-preprocess-import-assets": "^1.1.0",
     "tailwindcss": "^3.3.5",

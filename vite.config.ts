@@ -2,13 +2,13 @@ import { svelte, vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import cssHash from 'svelte-preprocess-css-hash'
 import { importAssets } from 'svelte-preprocess-import-assets'
 import { defineConfig } from 'vite'
-import preloadLink from './svelte-preprocess-preload-link'
+import insertPreloadLinks from './insertPreloadLinks'
 
-export default defineConfig(({ ssrBuild }) => {
+export default defineConfig(({ isSsrBuild }) => {
   const preprocess = [vitePreprocess(), importAssets(), cssHash()]
 
-  if (ssrBuild) {
-    preprocess.push(preloadLink())
+  if (isSsrBuild) {
+    preprocess.push(insertPreloadLinks())
   }
 
   return {
@@ -26,7 +26,7 @@ export default defineConfig(({ ssrBuild }) => {
       cssCodeSplit: false,
       rollupOptions: {
         output: {
-          inlineDynamicImports: ssrBuild
+          inlineDynamicImports: isSsrBuild
         }
       }
     }

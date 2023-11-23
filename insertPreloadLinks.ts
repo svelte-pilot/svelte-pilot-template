@@ -5,7 +5,7 @@ import path from 'path'
 const reg = {}
 
 export default function () {
-  const manifest = JSON.parse(
+  const manifest: Record<string, string[]> = JSON.parse(
     fs.readFileSync(
       `${process.env.CSR_OUT || 'dist/client'}/.vite/ssr-manifest.json`,
       'utf-8'
