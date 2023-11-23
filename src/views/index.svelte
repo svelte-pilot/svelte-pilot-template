@@ -1,8 +1,8 @@
 <script lang="ts" context="module">
-  import type { Route } from 'svelte-pilot'
+  import type { LoadFunction } from 'svelte-pilot'
   import type { Context } from '../context/types'
 
-  export async function load(props: {}, route: Route, ctx: Context) {
+  export const load: LoadFunction<{}, Context> = async({}, route, ctx) => {
     return {
       name: 'World'
     }
