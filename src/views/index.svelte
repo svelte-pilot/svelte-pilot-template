@@ -2,7 +2,7 @@
   import type { LoadFunction } from 'svelte-pilot'
   import type { Context } from '../context/types'
 
-  export const load: LoadFunction<{}, Context> = async({}, route, ctx) => {
+  export const load: LoadFunction<{}, Context> = async ({}, route, ctx) => {
     return {
       name: 'World'
     }
@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  export let name: string
+  let { name }: { name: string } = $props()
 </script>
 
 <svelte:head>

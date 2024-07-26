@@ -1,3 +1,4 @@
+import { hydrate } from 'svelte'
 import { ClientApp, type SSRState } from 'svelte-pilot'
 import ClientContext from './context/ClientContext'
 import router from './router'
@@ -13,9 +14,8 @@ declare global {
 
 router.start(
   () => {
-    new ClientApp({
+    hydrate(ClientApp, {
       target: document.body,
-      hydrate: Boolean(window.__SSR__?.state),
       props: { router }
     })
 

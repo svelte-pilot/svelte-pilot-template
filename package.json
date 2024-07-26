@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev:spa": "vite",
-    "dev:ssr": "VITE_SVELTE_HYDRATABLE=1 node ssr-dev-server",
+    "dev:ssr": "node ssr-dev-server",
     "build:spa": "vite build",
-    "build:ssr": "export VITE_SVELTE_HYDRATABLE=1 && vite build --ssrManifest --outDir ${CSR_OUT:-dist/client} && vite build --ssr src/adapters/${ADAPTER:-node}/index.ts --outDir ${SSR_OUT:-dist/server} && rm -rf ${CSR_OUT:-dist/client}/.vite",
+    "build:ssr": "vite build --ssrManifest --outDir ${CSR_OUT:-dist/client} && vite build --ssr src/adapters/${ADAPTER:-node}/index.ts --outDir ${SSR_OUT:-dist/server} && rm -rf ${CSR_OUT:-dist/client}/.vite",
     "build:cloudflare": "ADAPTER=cloudflare CSR_OUT=dist SSR_OUT=functions npm run build:ssr && cp src/adapters/cloudflare/_routes.json dist && mv functions/index.js functions/[[catchall]].js",
     "build:netlify": "ADAPTER=netlify npm run build:ssr",
     "build:netlify-edge": "ADAPTER=netlify-edge npm run build:ssr",
@@ -16,27 +16,27 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240314.0",
-    "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "@tsconfig/svelte": "^5.0.2",
-    "@types/node": "^20.11.28",
-    "mime": "^4.0.1",
-    "postcss-preset-env": "^9.5.2",
-    "prettier-plugin-organize-imports": "^3.2.4",
-    "prettier-plugin-tailwindcss": "^0.5.12",
-    "svelte-check": "^3.6.7",
+    "@cloudflare/workers-types": "^4.20240725.0",
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@tsconfig/svelte": "^5.0.4",
+    "@types/node": "^20.14.12",
+    "mime": "^4.0.4",
+    "postcss-preset-env": "^9.6.0",
+    "prettier-plugin-organize-imports": "^4.0.0",
+    "prettier-plugin-tailwindcss": "^0.6.5",
+    "svelte-check": "^3.8.4",
     "svelte-preprocess-css-hash": "^0.1.7",
     "svelte-preprocess-import-assets": "^1.1.0",
-    "tailwindcss": "^3.4.1",
-    "tslib": "^2.6.2",
-    "typescript": "^5.4.2",
-    "vite": "^5.1.6"
+    "tailwindcss": "^3.4.7",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5"
   },
   "dependencies": {
-    "@netlify/functions": "^2.6.0",
+    "@netlify/functions": "^2.8.1",
     "cookie.js": "^7.0.1",
     "sirv": "^2.0.4",
-    "svelte": "^4.2.12",
-    "svelte-pilot": "0.6.3"
+    "svelte": "next",
+    "svelte-pilot": "0.6.5"
   }
 }

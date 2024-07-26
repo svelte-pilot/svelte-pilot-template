@@ -1,4 +1,5 @@
 import { ServerApp } from 'svelte-pilot'
+import { render } from 'svelte/server'
 import ServerContext from './context/ServerContext'
 import router from './router'
 
@@ -16,7 +17,7 @@ export type Response = {
   body?: string
 }
 
-export default async function render({
+export default async function ({
   url,
   template,
   headers,
@@ -59,7 +60,9 @@ export default async function render({
       }
     }
 
-    const body = ServerApp.render({ router, route })
+    const body = render(ServerApp, {
+      props: { router, route }
+    })
 
     const __SSR__ = {
       state: route.ssrState,

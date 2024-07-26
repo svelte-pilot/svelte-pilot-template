@@ -14,11 +14,7 @@ export default defineConfig(({ isSsrBuild }) => {
   return {
     plugins: [
       svelte({
-        preprocess,
-
-        compilerOptions: {
-          hydratable: Boolean(Number(process.env.VITE_SVELTE_HYDRATABLE))
-        }
+        preprocess
       })
     ],
 
