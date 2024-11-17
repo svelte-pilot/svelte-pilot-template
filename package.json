@@ -37,6 +37,6 @@
     "cookie.js": "^7.0.1",
     "sirv": "^3.0.0",
     "svelte": "^5.2.2",
-    "svelte-pilot": "6.0.0"
+    "svelte-pilot": "6.0.1"
   }
 }
