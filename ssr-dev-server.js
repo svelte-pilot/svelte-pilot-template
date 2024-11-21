@@ -1,12 +1,14 @@
-import fs from 'fs'
-import { createServer } from 'http'
+import fs from 'node:fs'
+import { createServer } from 'node:http'
+import process from 'node:process'
 import { createServer as createViteDevServer } from 'vite'
 
 const PORT = Number(process.env.PORT) || 5173
 
+// eslint-disable-next-line antfu/no-top-level-await
 const vite = await createViteDevServer({
+  appType: 'custom',
   server: { middlewareMode: true },
-  appType: 'custom'
 })
 
 createServer((req, res) => {
@@ -29,19 +31,20 @@ createServer((req, res) => {
       //     `render` function calls appropriate framework SSR APIs,
       //    e.g. ReactDOMServer.renderToString()
       const {
+        body,
+        headers,
         statusCode = 200,
         statusMessage,
-        headers,
-        body
       } = await render({
-        url: req.url,
+        headers: req.headers,
         template,
-        headers: req.headers
+        url: req.url,
       })
 
       res.writeHead(statusCode, statusMessage, headers)
       res.end(body)
-    } catch (e) {
+    }
+    catch (e) {
       // If an error is caught, let Vite fix the stack trace so it maps back
       // to your actual source code.
       vite.ssrFixStacktrace(e)
@@ -52,4 +55,5 @@ createServer((req, res) => {
   })
 }).listen(PORT)
 
+// eslint-disable-next-line no-console
 console.log(`Server running at http://localhost:${PORT}`)

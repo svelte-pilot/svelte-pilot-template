@@ -6,18 +6,18 @@ export default function setCookieHeader(
   {
     domain,
     expires,
+    httpOnly,
     maxAge,
     partitioned,
     path,
     sameSite,
     secure,
-    httpOnly
-  }: CookieOptions = {}
+  }: CookieOptions = {},
 ) {
-  let cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value)
+  let cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`
 
   if (domain) {
-    cookie += '; Domain=' + domain
+    cookie += `; Domain=${domain}`
   }
 
   if (expires) {
@@ -25,12 +25,12 @@ export default function setCookieHeader(
       expires = new Date(expires)
     }
 
-    cookie +=
-      '; Expires=' + (expires instanceof Date ? expires.toUTCString() : expires)
+    cookie
+      += `; Expires=${expires instanceof Date ? expires.toUTCString() : expires}`
   }
 
   if (maxAge || maxAge === 0) {
-    cookie += '; Max-Age=' + maxAge
+    cookie += `; Max-Age=${maxAge}`
   }
 
   if (partitioned) {
@@ -38,11 +38,11 @@ export default function setCookieHeader(
   }
 
   if (path) {
-    cookie += '; Path=' + path
+    cookie += `; Path=${path}`
   }
 
   if (sameSite) {
-    cookie += '; SameSite=' + sameSite
+    cookie += `; SameSite=${sameSite}`
 
     if (sameSite === 'None') {
       secure = true

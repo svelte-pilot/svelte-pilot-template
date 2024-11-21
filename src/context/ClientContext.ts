@@ -1,28 +1,17 @@
 import cookie from 'cookie.js'
-import router from '../router'
-import negotiateLanguage from './negotiateLanguage'
+
 import type { Context, CookieOptions } from './types'
 
+import router from '../router'
+import Interruption from './Interruption'
+import negotiateLanguage from './negotiateLanguage'
+
 export default class ClientContext implements Context {
-  setStatus(code: number, message?: string | undefined) {
-    // nop
+  getCookie(name: string) {
+    return cookie.get(name)
   }
 
-  rewrite(path: string): never {
-    router.handleClient(path)
-    throw 0
-  }
-
-  redirect(url: string): never {
-    router.replace(url)
-    throw 0
-  }
-
-  setHeader(name: string, value: string | string[]) {
-    // nop
-  }
-
-  getHeader(name: string) {
+  getHeader() {
     return undefined
   }
 
@@ -30,15 +19,29 @@ export default class ClientContext implements Context {
     return negotiateLanguage(navigator.languages, available)
   }
 
-  setCookie(name: string, value: string, options?: CookieOptions) {
-    cookie.set(name, value, options)
-  }
-
-  getCookie(name: string) {
-    return cookie.get(name)
+  redirect(url: string): never {
+    router.replace(url)
+    throw new Interruption()
   }
 
   removeCookie(name: string, options?: CookieOptions) {
     cookie.remove(name, options)
+  }
+
+  rewrite(path: string): never {
+    router.handleClient(path)
+    throw new Interruption()
+  }
+
+  setCookie(name: string, value: string, options?: CookieOptions) {
+    cookie.set(name, value, options)
+  }
+
+  setHeader() {
+    // nop
+  }
+
+  setStatus() {
+    // nop
   }
 }

@@ -1,26 +1,27 @@
 import render from '../../render'
+
 import template from '/dist/index.html?raw'
 
-export const onRequest: PagesFunction = async ctx => {
+export const onRequest: PagesFunction = async (ctx) => {
   const url = new URL(ctx.request.url)
 
   const {
+    body = '',
+    headers = {},
     statusCode,
     statusMessage,
-    headers = {},
-    body = ''
   } = await render({
-    url: url.pathname + url.search,
     headers: Object.fromEntries([...ctx.request.headers.entries()]),
-    template
+    template,
+    url: url.pathname + url.search,
   })
 
   return new Response(body, {
-    status: statusCode,
-    statusText: statusMessage,
     headers: {
       'content-type': 'text/html; charset=utf-8',
-      ...headers
-    }
+      ...headers,
+    },
+    status: statusCode,
+    statusText: statusMessage,
   })
 }

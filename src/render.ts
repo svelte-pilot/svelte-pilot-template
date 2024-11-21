@@ -1,27 +1,29 @@
-import { ServerApp } from 'svelte-pilot'
 import { render } from 'svelte/server'
+import { ServerApp } from 'svelte-pilot'
+
+import Interruption from './context/Interruption'
 import ServerContext from './context/ServerContext'
 import router from './router'
 
-type Params = {
-  url: string
-  template: string
+interface Params {
   headers?: Record<string, string | undefined>
   nojs?: boolean
+  template: string
+  url: string
 }
 
-export type Response = {
+export interface Response {
+  body?: string
+  headers?: Record<string, string | string[] | undefined>
   statusCode?: number
   statusMessage?: string
-  headers?: Record<string, string | string[] | undefined>
-  body?: string
 }
 
 export default async function ({
-  url,
-  template,
   headers,
-  nojs
+  nojs,
+  template,
+  url,
 }: Params): Promise<Response> {
   try {
     const ctx = new ServerContext(headers)
@@ -29,14 +31,14 @@ export default async function ({
     async function handle(url: string) {
       try {
         return await router.handleServer(url, ctx)
-      } catch (e) {
-        if (e === 0) {
+      }
+      catch (e) {
+        if (e instanceof Interruption) {
           if (ctx._rewrite) {
             return handle(ctx._rewrite)
           }
-
-          return
-        } else {
+        }
+        else {
           throw e
         }
       }
@@ -45,57 +47,61 @@ export default async function ({
     const route = await handle(new URL(url, 'http://127.0.0.1').href)
 
     if (!route) {
-      if (ctx.headers['location']) {
+      if (ctx.headers.location) {
         return {
+          headers: ctx.headers,
           statusCode: ctx.statusCode || 302,
-          headers: ctx.headers
         }
-      } else {
+      }
+      else {
         return {
-          statusCode: 404,
           body: import.meta.env.DEV
             ? `${url} did not match any routes. Did you forget to add a catch-all route?`
-            : '404 Not Found'
+            : '404 Not Found',
+          statusCode: 404,
         }
       }
     }
 
     const body = render(ServerApp, {
-      props: { router, route }
+      props: { route, router },
     })
 
     const __SSR__ = {
+      rewrite: ctx._rewrite,
       state: route.ssrState,
-      rewrite: ctx._rewrite
     }
 
     if (nojs) {
       body.head = body.head.replace(/<!--.+?-->/g, '')
-    } else {
+    }
+    else {
       body.html += `<script>__SSR__ = ${serialize(__SSR__)}</script>`
     }
 
     return {
-      statusCode: ctx.statusCode,
+      body: template
+        .replace('</head>', `${body.head}</head>`)
+        .replace(/<body.*?>/, $0 => $0 + body.html),
 
       headers: {
         'Content-Type': 'text/html',
-        ...ctx.headers
+        ...ctx.headers,
       },
 
-      body: template
-        .replace('</head>', body.head + '</head>')
-        .replace(/<body.*?>/, $0 => $0 + body.html)
+      statusCode: ctx.statusCode,
     }
-  } catch (e) {
+  }
+  catch (e) {
     if (import.meta.env.DEV) {
       throw e
-    } else {
+    }
+    else {
       console.error(e)
 
       return {
+        body: import.meta.env.DEV && e instanceof Error ? e.message : '',
         statusCode: 500,
-        body: import.meta.env.DEV && e instanceof Error ? e.message : ''
       }
     }
   }

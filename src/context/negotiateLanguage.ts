@@ -1,6 +1,6 @@
 export default function negotiateLanguage(
   accept: readonly string[],
-  available: readonly string[]
+  available: readonly string[],
 ) {
   for (const lang of accept) {
     if (available.includes(lang)) {

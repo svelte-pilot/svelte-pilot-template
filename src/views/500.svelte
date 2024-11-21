@@ -1,8 +1,9 @@
-<script lang="ts" context="module">
+<script lang='ts' module>
   import type { LoadFunction } from 'svelte-pilot'
+
   import type { Context } from '../context/types'
 
-  export const load: LoadFunction<{}, Context> = async ({}, route, ctx) => {
+  export const load: LoadFunction<{}, Context> = async (props, route, ctx) => {
     ctx.setStatus(500)
   }
 </script>

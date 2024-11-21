@@ -1,15 +1,17 @@
+import type { Context, CookieOptions, StringKV } from './types'
+
+import Interruption from './Interruption'
 import negotiateLanguage from './negotiateLanguage'
 import parseAcceptLanguage from './parseAcceptLanguage'
 import setCookieHeader from './setCookieHeader'
-import type { Context, CookieOptions, StringKV } from './types'
 
 export default class ServerContext implements Context {
-  statusCode?: number
-  statusMessage?: string
   _rewrite?: string
+  cookies: StringKV = {}
   headers: Record<string, string | string[] | undefined> = {}
   reqHeaders: StringKV = {}
-  cookies: StringKV = {}
+  statusCode?: number
+  statusMessage?: string
 
   constructor(headers?: StringKV) {
     if (headers) {
@@ -17,32 +19,16 @@ export default class ServerContext implements Context {
 
       const cookies = headers.cookie
         ? Object.fromEntries(
-            new URLSearchParams(headers.cookie.replace(/;\s*/g, '&')).entries()
-          )
+          new URLSearchParams(headers.cookie.replace(/;\s*/g, '&')).entries(),
+        )
         : {}
 
       this.cookies = cookies
     }
   }
 
-  setStatus(code: number, message?: string): void {
-    this.statusCode = code
-    this.statusMessage = message
-  }
-
-  rewrite(path: string): never {
-    this._rewrite = path
-    throw 0
-  }
-
-  redirect(url: string, statusCode = 302): never {
-    this.setHeader('location', url)
-    this.statusCode = statusCode
-    throw 0
-  }
-
-  setHeader(name: string, value: string | string[]) {
-    this.headers[name.toLowerCase()] = value
+  getCookie(name: string) {
+    return this.cookies[name]
   }
 
   getHeader(name: string) {
@@ -52,8 +38,25 @@ export default class ServerContext implements Context {
   language(available: string[]) {
     return negotiateLanguage(
       parseAcceptLanguage(this.reqHeaders['accept-language']),
-      available
+      available,
     )
+  }
+
+  redirect(url: string, statusCode = 302): never {
+    this.setHeader('location', url)
+    this.statusCode = statusCode
+    throw new Interruption()
+  }
+
+  removeCookie(name: string, options: CookieOptions = {}) {
+    if (this.cookies[name]) {
+      this.setCookie(name, '', { ...options, maxAge: 0 })
+    }
+  }
+
+  rewrite(path: string): never {
+    this._rewrite = path
+    throw new Interruption()
   }
 
   setCookie(name: string, value: string, options: CookieOptions = {}) {
@@ -62,17 +65,16 @@ export default class ServerContext implements Context {
     }
 
     ;(this.headers['set-cookie'] as string[]).push(
-      setCookieHeader(name, value, options)
+      setCookieHeader(name, value, options),
     )
   }
 
-  getCookie(name: string) {
-    return this.cookies[name]
+  setHeader(name: string, value: string | string[]) {
+    this.headers[name.toLowerCase()] = value
   }
 
-  removeCookie(name: string, options: CookieOptions = {}) {
-    if (this.cookies[name]) {
-      this.setCookie(name, '', { ...options, maxAge: 0 })
-    }
+  setStatus(code: number, message?: string): void {
+    this.statusCode = code
+    this.statusMessage = message
   }
 }

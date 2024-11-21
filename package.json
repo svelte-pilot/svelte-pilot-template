@@ -1,8 +1,8 @@
 {
   "name": "svelte-pilot-template",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev:spa": "vite",
     "dev:ssr": "node ssr-dev-server",
@@ -15,28 +15,33 @@
     "start:ssr": "node dist/server/index.js",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241112.0",
-    "@sveltejs/vite-plugin-svelte": "^4.0.1",
-    "@tsconfig/svelte": "^5.0.4",
-    "@types/node": "^22.9.0",
-    "mime": "^4.0.4",
-    "postcss-preset-env": "^10.1.0",
-    "prettier-plugin-organize-imports": "^4.1.0",
-    "prettier-plugin-tailwindcss": "^0.6.8",
-    "svelte-check": "^4.0.9",
-    "svelte-preprocess-css-hash": "^0.1.7",
-    "svelte-preprocess-import-assets": "^1.1.0",
-    "tailwindcss": "^3.4.15",
-    "tslib": "^2.8.1",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.11"
-  },
   "dependencies": {
     "@netlify/functions": "^2.8.2",
     "cookie.js": "^7.0.1",
     "sirv": "^3.0.0",
-    "svelte": "^5.2.2",
+    "svelte": "^5.2.7",
     "svelte-pilot": "6.0.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.9.2",
+    "@cloudflare/workers-types": "^4.20241112.0",
+    "@sveltejs/vite-plugin-svelte": "^4.0.1",
+    "@tsconfig/svelte": "^5.0.4",
+    "@types/node": "^22.9.1",
+    "@unocss/eslint-plugin": "^0.64.1",
+    "@unocss/extractor-svelte": "^0.64.1",
+    "eslint": "^9.15.0",
+    "eslint-plugin-format": "^0.1.2",
+    "eslint-plugin-svelte": "^2.46.0",
+    "mime": "^4.0.4",
+    "postcss-preset-env": "^10.1.1",
+    "svelte-check": "^4.0.9",
+    "svelte-eslint-parser": "^0.43.0",
+    "svelte-preprocess-css-hash": "^0.2.0",
+    "svelte-preprocess-import-assets": "^1.1.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.6.3",
+    "unocss": "^0.64.1",
+    "vite": "^5.4.11"
   }
 }

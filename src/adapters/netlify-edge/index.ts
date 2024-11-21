@@ -1,4 +1,5 @@
 import render from '../../render'
+
 import template from '/dist/client/index.html?raw'
 
 export default async (req: Request) => {
@@ -8,18 +9,18 @@ export default async (req: Request) => {
     return
   }
 
-  const { statusCode, statusMessage, headers, body } = await render({
-    url: url.pathname + url.search,
+  const { body, headers, statusCode, statusMessage } = await render({
     headers: Object.fromEntries([...req.headers.entries()]),
-    template
+    template,
+    url: url.pathname + url.search,
   })
 
   return new Response(body, {
-    status: statusCode,
-    statusText: statusMessage,
     headers: {
       'content-type': 'text/html; charset=utf-8',
-      ...headers
-    }
+      ...headers,
+    },
+    status: statusCode,
+    statusText: statusMessage,
   })
 }

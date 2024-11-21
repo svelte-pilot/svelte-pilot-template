@@ -1,18 +1,20 @@
 import type { Handler } from '@netlify/functions'
+
 import render from '../../render'
+
 import template from '/dist/client/index.html?raw'
 
-export const handler: Handler = async event => {
+export const handler: Handler = async (event) => {
   const url = new URL(event.rawUrl)
 
   const {
-    statusCode = 200,
+    body,
     headers,
-    body
+    statusCode = 200,
   } = await render({
-    url: url.pathname + url.search,
+    headers: event.headers,
     template,
-    headers: event.headers
+    url: url.pathname + url.search,
   })
 
   const singleValueHeaders: Record<string, string> = {}
@@ -22,16 +24,17 @@ export const handler: Handler = async event => {
     for (const [key, value] of Object.entries(headers)) {
       if (Array.isArray(value)) {
         multiValueHeaders[key] = value
-      } else if (value) {
+      }
+      else if (value) {
         singleValueHeaders[key] = value
       }
     }
   }
 
   return {
-    statusCode,
     body,
     headers: singleValueHeaders,
-    multiValueHeaders
+    multiValueHeaders,
+    statusCode,
   }
 }

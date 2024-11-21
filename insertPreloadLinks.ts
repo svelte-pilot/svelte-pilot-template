@@ -1,6 +1,7 @@
-import fs from 'fs'
 import mime from 'mime'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
 
 const reg = {}
 
@@ -8,17 +9,17 @@ export default function () {
   const manifest: Record<string, string[]> = JSON.parse(
     fs.readFileSync(
       `${process.env.CSR_OUT || 'dist/client'}/.vite/ssr-manifest.json`,
-      'utf-8'
-    )
+      'utf-8',
+    ),
   )
 
   const nojs = process.env.NOJS === '1'
 
   for (const p in manifest) {
     if (
-      !p.endsWith('.svelte') ||
-      p.startsWith('node_modules') ||
-      p.startsWith('\u0000')
+      !p.endsWith('.svelte')
+      || p.startsWith('node_modules')
+      || p.startsWith('\u0000')
     ) {
       delete manifest[p]
       continue
@@ -43,27 +44,28 @@ export default function () {
 
       if (files) {
         const headTag = '<svelte:head>'
-        const tags =
-          headTag +
-          '\n' +
-          files.map(preloadLink).filter(Boolean).join('\n') +
-          '\n'
+        const tags
+          = `${headTag
+          }\n${
+            files.map(preloadLink).filter(Boolean).join('\n')
+          }\n`
 
         content = content.includes(headTag)
           ? content.replace(headTag, tags)
-          : tags + '</svelte:head>\n' + content
+          : `${tags}</svelte:head>\n${content}`
       }
 
       return {
-        code: content
+        code: content,
       }
-    }
+    },
   }
 
   function preloadLink(href) {
     if (reg[href]) {
       return ''
-    } else {
+    }
+    else {
       reg[href] = true
     }
 
@@ -71,19 +73,23 @@ export default function () {
 
     if (ext === 'js') {
       return nojs ? '' : `<link href="${href}" rel="modulepreload" as="script">`
-    } else if (ext === 'css') {
+    }
+    else if (ext === 'css') {
       return `<link href="${href}" rel="stylesheet">`
-    } else if (
-      ['jpg', 'jpeg', 'png', 'apng', 'webp', 'gif', 'ico'].includes(ext)
+    }
+    else if (
+      ['apng', 'gif', 'ico', 'jpeg', 'jpg', 'png', 'webp'].includes(ext)
     ) {
       return `<link href="${href}" rel="preload" as="image" type="${mime.getType(
-        ext
+        ext,
       )}">`
-    } else if (['woff', 'woff2', 'ttf', 'otf', 'eot'].includes(ext)) {
+    }
+    else if (['eot', 'otf', 'ttf', 'woff', 'woff2'].includes(ext)) {
       return `<link href="${href}" rel="preload" as="font" type="${mime.getType(
-        ext
+        ext,
       )}" crossorigin>`
-    } else {
+    }
+    else {
       return ''
     }
   }
