@@ -4,10 +4,11 @@ import perfectionist from 'eslint-plugin-perfectionist'
 export default antfu(
   {
     formatters: true,
+    rules: {
+      'prefer-const': 'off',
+      ...perfectionist.configs['recommended-natural'].rules,
+    },
     svelte: true,
     unocss: true,
-  },
-  {
-    rules: perfectionist.configs['recommended-natural'].rules,
   },
 )

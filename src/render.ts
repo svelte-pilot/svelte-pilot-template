@@ -63,7 +63,7 @@ export default async function ({
       }
     }
 
-    const body = render(ServerApp, {
+    const html = render(ServerApp, {
       props: { route, router },
     })
 
@@ -73,16 +73,16 @@ export default async function ({
     }
 
     if (nojs) {
-      body.head = body.head.replace(/<!--.+?-->/g, '')
+      html.head = html.head.replace(/<!--.+?-->/g, '')
     }
     else {
-      body.html += `<script>__SSR__ = ${serialize(__SSR__)}</script>`
+      html.body += `<script>__SSR__ = ${serialize(__SSR__)}</script>`
     }
 
     return {
       body: template
-        .replace('</head>', `${body.head}</head>`)
-        .replace(/<body.*?>/, $0 => $0 + body.html),
+        .replace('</head>', `${html.head}</head>`)
+        .replace(/<body.*?>/, $0 => $0 + html.body),
 
       headers: {
         'Content-Type': 'text/html',

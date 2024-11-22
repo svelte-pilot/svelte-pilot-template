@@ -11,7 +11,7 @@
 </script>
 
 <script lang='ts'>
-  const { name }: { name: string } = $props()
+  let { name }: { name: string } = $props()
 </script>
 
 <svelte:head>

@@ -3,14 +3,16 @@
 A template based on the [Svelte Pilot](https://github.com/svelte-pilot/svelte-pilot) routing library, offering server-side rendering (SSR) and other rich features.
 
 ## Core Features
+
 - **Multiple Deployment Modes**: Supports SSR (Server-Side Rendering), SSG (Static Site Generation), SPA (Single Page Application), and serverless functions.
 - **Powerful Routing and Layout System**: Supported by [Svelte Pilot](https://github.com/svelte-pilot/svelte-pilot).
 - **Integrated with TypeScript**: For type safety and robust coding.
 - **Integrated with PostCSS and Tailwind CSS**: Ready to use without configuration.
 - **Convenient Image Import**: With [svelte-preprocess-import-assets](https://github.com/bluwy/svelte-preprocess-import-assets), you can directly import images using the `<img src="./img.png">` tag without manually writing an `import`.
-- **Enhanced CSS Isolation**: Through [svelte-preprocess-css-hash](https://github.com/jiangfengming/svelte-preprocess-css-hash), `<Child class="--child">` becomes `<Child class="--child-HaShEd">`.
+- **Enhanced CSS Isolation**: Through [svelte-preprocess-css-hash](https://github.com/jiangfengming/svelte-preprocess-css-hash), `<Child class="-child">` becomes `<Child class="-child-HaShEd">`.
 
 ## Quick Preview
+
 Experience the editable demo on the [StackBlitz Online IDE](https://stackblitz.com/~/github.com/svelte-pilot/svelte-pilot-template?startScript=dev:ssr).
 
 ## Create a Project
