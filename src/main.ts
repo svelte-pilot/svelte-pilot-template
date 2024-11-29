@@ -5,6 +5,7 @@ import ClientContext from './context/ClientContext'
 import router from './router'
 
 import 'virtual:uno.css'
+import '@unocss/reset/tailwind.css'
 
 declare global {
   interface Window {
