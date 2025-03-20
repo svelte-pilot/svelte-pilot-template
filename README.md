@@ -35,19 +35,20 @@ npm i
 ## Development
 
 ```sh
-npm run dev:spa           # Develop in SPA mode
-npm run dev:ssr           # Develop in SSR mode
-PORT=8080 npm run dev:ssr # Specify the port.
+npm run dev:spa            # Develop in SPA mode
+npm run dev:ssr            # Develop in SSR mode
+PORT=8080 npm run dev:ssr  # Specify the port.
 ```
 
 ## Build
 
 ```sh
-npm run build:spa         # Build SPA site
-npm run build:ssr         # node.js SSR server
-npm run build:ssg         # Generate static site. Configure URLs in the `ssg` field of `package.json`.
-NOJS=1 npm run build:ssg  # Generate static site without JS
-npm run build:cloudflare  # Cloudflare Pages
+npm run build:spa                 # Build SPA site
+npm run build:ssr                 # node.js SSR server
+npm run build:ssg                 # Generate static site. (Configure URLs in ssg.json)
+NOJS=1 npm run build:ssg          # Generate static site without JS
+npm run build:cloudflare-workers  # Cloudflare Workers
+npm run build:cloudflare-pages    # Cloudflare Pages
 
 # Netlify Functions
 cp src/adapters/netlify/netlify.toml .
@@ -69,19 +70,36 @@ PORT=8080 npm run start:ssr       # Specify the port.
 
 ## Deploy to the Cloud
 
-### Cloudflare Pages
+### Cloudflare
 
-#### Deploy using `wrangler` CLI:
+#### Workers
+
+##### Deploy using `wrangler` CLI:
+
+```sh
+wrangler deploy
+```
+
+##### Deploy using Git
+
+1. Link your Git repository to Cloudflare Workers.
+2. Set up the build configuration:
+   - Build command: `npm run build:cloudflare-workers`
+   - Deploy command: `npx wrangler deploy`
+
+#### Pages
+
+##### Deploy using `wrangler` CLI:
 
 ```sh
 wrangler pages deploy dist
 ```
 
-#### Deploy using Git
+##### Deploy using Git
 
 1. Link your Git repository to Cloudflare Pages.
 2. Set up the build configuration:
-   - Build command: `npm run build:cloudflare`
+   - Build command: `npm run build:cloudflare-pages`
    - Build output directory: `dist`
 
 ### Netlify

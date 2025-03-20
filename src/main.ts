@@ -1,5 +1,7 @@
+import type { SSRState } from 'svelte-pilot'
+
 import { hydrate } from 'svelte'
-import { ClientApp, type SSRState } from 'svelte-pilot'
+import { ClientApp } from 'svelte-pilot'
 
 import ClientContext from './context/ClientContext'
 import router from './router'

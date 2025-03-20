@@ -1,22 +1,22 @@
-import { render } from 'svelte/server'
 import { ServerApp } from 'svelte-pilot'
+import { render } from 'svelte/server'
 
 import Interruption from './context/Interruption'
 import ServerContext from './context/ServerContext'
 import router from './router'
-
-interface Params {
-  headers?: Record<string, string | undefined>
-  nojs?: boolean
-  template: string
-  url: string
-}
 
 export interface Response {
   body?: string
   headers?: Record<string, string | string[] | undefined>
   statusCode?: number
   statusMessage?: string
+}
+
+interface Params {
+  headers?: Record<string, string | undefined>
+  nojs?: boolean
+  template: string
+  url: string
 }
 
 export default async function ({
